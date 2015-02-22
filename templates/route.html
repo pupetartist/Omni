@@ -1,0 +1,60 @@
+{% extends "base_page.html" %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="/css/route.css">
+{% endblock %}
+
+{% block page_content %}
+<div class="routes-panel">
+	<h3>
+		Looking for routes...
+		<a id="update" href="#">
+			<span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+		</a>
+	</h3>
+
+	<strong>Origin:</strong>{{origin}}
+	<br/>
+	<strong>Destination:</strong>{{destination}}
+
+	<div>
+		<h3 id="routes-header" class="hidden">
+			The following routes were found...
+		</h3>
+	</div>
+	
+	<ul id="routes-list" class="list-group hidden">
+		<li class="list-group-item">
+			<img src="/img/pedestrian-icon.png" alt="ecobici" class="transport-icon"/>
+			<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
+			<img src="/img/metro-icon.png" alt="metro" class="transport-icon"/>
+			<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
+			<img src="/img/taxi-icon.png" alt="metro" class="transport-icon"/>
+		</li>
+
+		<li class="list-group-item">
+			<img src="/img/pedestrian-icon.png" alt="ecobici" class="transport-icon"/>
+			<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
+			<img src="/img/metrobus-icon.png" alt="metrobus" class="transport-icon"/>
+			<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
+			<img src="/img/ecobici-icon.png" alt="ecobici" class="transport-icon"/>
+		</li>
+
+		<li class="list-group-item">
+			<img src="/img/pedestrian-icon.png" alt="ecobici" class="transport-icon"/>
+			<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
+			<img src="/img/metrobus-icon.png" alt="metrobus" class="transport-icon"/>
+			<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
+			<img src="/img/metro-icon.png" alt="metro" class="transport-icon"/>
+			<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
+			<img src="/img/uber-icon.png" alt="metro" class="transport-icon"/>
+		</li>
+	</ol>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="/js/route.js"></script>
+{% endblock %}

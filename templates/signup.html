@@ -1,0 +1,30 @@
+{% extends "base_page.html" %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="/css/signup.css">
+{% endblock %}
+
+{% block page_content %}
+<form method="post" action="/signup" class="form-signup" role="form">
+  <input type="hidden" name="redirect_url" value="{{ redirect_url }}">
+
+  <h2 class="form-signup-heading">Sign Up</h2>
+  <hr>
+
+  <span class="has-error text-danger">{{username_error}}</span>
+  <input type="text" name="username" value="{{username}}" placeholder="Username" class="form-control"
+	 required autofocus>
+
+  <span class="has-error text-danger">{{password_error}}</span>
+  <input type="password" name="password" value="" class="form-control" placeholder="Password" required>
+
+  <span class="has-error text-danger">{{verify_error}}</span>
+  <input type="password" name="verify" value="" class="form-control" placeholder="Confirm password" required>
+
+  <span class="has-error text-danger">{{email_error}}</span>
+  <input type="email" name="email" value="{{email}}" class="form-control" placeholder="Email">
+
+  <button type="submit" class="btn btn-primary btn-block">Sign up</button>
+</form>
+{% endblock %}

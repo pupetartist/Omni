@@ -1,0 +1,10 @@
+{% extends "base_page.html" %}
+
+{% block page_content %}
+
+<h1>Error 401: Authorization Required</h1>
+<p>
+Only registed users can edit pages. Please <a href="/login?redirect_url={{ page_path }}">Log in</a> or <a href="/signup?redirect_url={{ page_path }}">Sign up</a> if you don't have an account.
+</p>
+
+{% endblock %}

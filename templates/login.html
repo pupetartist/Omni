@@ -1,0 +1,33 @@
+{% extends "base_page.html" %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="/css/login.css">
+{% endblock %}
+
+{% block page_content %}
+
+<form method="post" action="/login" role="form" class="form-signin">
+  <input type="hidden" name="redirect_url" value="{{ redirect_url }}">
+
+  <h2 class="form-signin-heading">Log In</h2>
+  <hr> 
+
+  <p class="has-error text-danger">{{login_error}}</p>
+
+  <input type="text" name="username" value="" class="form-control" placeholder="Username" 
+	 required autofocus>  
+  <input type="password" name="password" value="" class="form-control" placeholder="Password" required> 
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" value="remember-me"><small>Remember me</small>
+    </label>
+  </div>
+  <button type="submit" class="btn btn-primary btn-block">Log in</button>
+</form>
+
+<div class="link-signup">
+  Don't have an account yet? <a href="/signup?redirect_url={{ redirect_url }}">Sign Up</a>
+</div>
+
+{% endblock %}

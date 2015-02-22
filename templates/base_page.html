@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="/css/base_page.css">
+{% endblock %}
+
+{% block content %}
+<div class="row" id="mainbar">
+	<div class="col-md-3">
+		<a href="/">
+			<img src="/img/omnimobi.jpg" alt="Omnimobie" class="logo"> 
+		</a>
+	</div>	
+	<form class="col-md-9" id="search" method="GET" action="/route">
+		<div class="form-horizontal">
+			<div class="form-group has-feedback">
+				<label class="control-label col-md-3" for="destination">Where are you?</label>
+				<div class="col-md-8">
+					<div class="input-group">
+						<input type="text" class="form-control" name="origin" id="origin"
+							value="{{origin}}"
+							placeholder="Type a place or location" required />
+						<div class="input-group-btn">
+							<button type="button" class="btn btn-success" id="find-me">
+								Find me!
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-horizontal">
+			<div class="form-group has-feedback">
+				<label class="control-label col-md-3" for="destination">
+					Where are you going?
+				</label>
+				<div class="col-md-8">
+					<div class="input-group">
+						<input type="text" class="form-control" name="destination"
+							id="destination" placeholder="Type a place or location" required />
+						<div class="input-group-btn">
+							<button type="submit" class="btn btn-primary inline">Go!</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+
+{% block page_content %}
+{% endblock %}
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/js/base_page.js"></script>
+{% endblock %}

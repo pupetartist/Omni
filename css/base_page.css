@@ -1,0 +1,22 @@
+.hidden {
+	 visibility: hidden;
+}
+
+.logo {
+	 width: 300px;
+}
+
+#search {
+	 margin-top: 20px;
+}
+
+#mainbar {
+	 background: rgb(0, 114, 161);
+	 color: white;
+}
+
+@media (min-width: 768px) {
+    .navbar-nav.navbar-right > li {
+		  float: right;
+    }
+}
