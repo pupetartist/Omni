@@ -7,54 +7,208 @@
 
 {% block page_content %}
 <div class="routes-panel">
-	<h3>
-		Looking for routes...
-		<a id="update" href="#">
-			<span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
-		</a>
-	</h3>
-
-	<strong>Origin:</strong>{{origin}}
-	<br/>
-	<strong>Destination:</strong>{{destination}}
-
-	<div>
-		<h3 id="routes-header" class="hidden">
-			The following routes were found...
+	<div id="routes-search-progress">
+		<h3>
+			Looking for routes...
+			<a id="update" href="#">
+				<span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+			</a>
 		</h3>
 	</div>
+
+	<div class="row">
+		<div class="col-md-7">
+			<h3 id="routes-header" class="hidden">
+				The following routes were found:
+			</h3>
+
+			<ul id="routes-list" class="list-group hidden">
+				<li class="list-group-item row">
+					<div class="col-xs-2 col-md-2 timer">
+						<input type="text" value="30" class="dial"/>
+					</div>
+					<div class="col-xs-10 col-md-10">
+						<figure>
+							<img src="/img/pedestrian-icon.png" alt="ecobici" class="transport-icon"/>
+							<figcaption>
+								5 min
+							</figcaption>
+						</figure>
+						<figure>
+							<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
+							<figcaption>
+								&nbsp;
+							</figcaption>
+						</figure>
+						<figure>
+							<img src="/img/metro-icon.png" alt="metro" class="transport-icon"/>
+							<figcaption>
+								15 min
+							</figcaption>
+						</figure>
+						<figure>
+							<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
+							<figcaption>
+								&nbsp;
+							</figcaption>
+						</figure>
+						<figure>
+							<img src="/img/taxi-icon.png" alt="metro" class="transport-icon"/>
+							<figcaption>
+								10 min
+							</figcaption>
+						</figure>
+					</div>
+				</li>
+
+				<li class="list-group-item row">
+					<div class="col-xs-2 col-md-2 timer">
+						<input type="text" value="52" class="dial"/>
+					</div>
+					<div class="col-xs-10 col-md-10">
+						<figure>
+							<img src="/img/pedestrian-icon.png" alt="ecobici" class="transport-icon"/>
+							<figcaption>
+								7 min
+							</figcaption>
+						</figure>
+						<figure>
+							<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
+							<figcaption>
+								&nbsp;
+							</figcaption>
+						</figure>
+						<figure>
+							<img src="/img/metrobus-icon.png" alt="metrobus" class="transport-icon"/>
+							<figcaption>
+								25 min
+							</figcaption>
+						</figure>
+						<figure>
+							<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
+							<figcaption>
+								&nbsp;
+							</figcaption>
+						</figure>
+						<figure>
+							<img src="/img/ecobici-icon.png" alt="ecobici" class="transport-icon"/>
+							<figcaption>
+								20 min
+							</figcaption>
+						</figure>
+					</div>
+				</li>
+				
+				<li class="list-group-item row">
+					<div class="col-xs-2 col-md-2 timer">
+						<input type="text" value="42" class="dial"/>
+					</div>
+					<div class="col-xs-10 col-md-10">
+						<figure>
+							<img src="/img/pedestrian-icon.png" alt="ecobici" class="transport-icon"/>
+							<figcaption>
+								7 min
+							</figcaption>
+						</figure>
+						<figure>
+							<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
+							<figcaption>
+								&nbsp;
+							</figcaption>
+						</figure>
+						<figure>
+							<img src="/img/metrobus-icon.png" alt="metrobus" class="transport-icon"/>
+							<figcaption>
+								10 min
+							</figcaption>
+						</figure>
+						<figure>
+							<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
+							<figcaption>
+								&nbsp;
+							</figcaption>
+						</figure>
+						<figure>
+							<img src="/img/metro-icon.png" alt="metro" class="transport-icon"/>
+							<figcaption>
+								20 min
+							</figcaption>
+						</figure>
+						<figure>
+							<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
+							<figcaption>
+								&nbsp;
+							</figcaption>
+						</figure>
+						<figure>
+							<img src="/img/uber-icon.png" alt="metro" class="transport-icon"/>
+							<figcaption>
+								5 min
+							</figcaption>
+						</figure>
+					</div>
+				</li>
+
+				<li class="list-group-item row">
+					<div class="col-xs-2 col-md-2 timer">
+						<input type="text" value=57" class="dial"/>
+					</div>
+					<div class="col-xs-10 col-md-10">
+						<figure>
+							<img src="/img/microbus-icon.png" alt="ecobici" class="transport-icon"/>
+							<figcaption>
+								10 min
+							</figcaption>
+						</figure>
+						<figure>
+							<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
+							<figcaption>
+								&nbsp;
+							</figcaption>
+						</figure>
+						<figure>
+							<img src="/img/metro-icon.png" alt="metro" class="transport-icon"/>
+							<figcaption>
+								10 min
+							</figcaption>
+						</figure>
+						<figure>
+							<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
+							<figcaption>
+								&nbsp;
+							</figcaption>
+						</figure>
+						<figure>
+							<img src="/img/pedestrian-icon.png" alt="pedestrian" class="transport-icon"/>
+							<figcaption>
+								2 min
+							</figcaption>
+						</figure>
+						<figure>
+							<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
+							<figcaption>
+								&nbsp;
+							</figcaption>
+						</figure>
+						<figure>
+							<img src="/img/microbus-icon.png" alt="ecobici" class="transport-icon"/>
+							<figcaption>
+								35 min
+							</figcaption>
+						</figure>
+					</div>
+				</li>
+			</ul>
+
+		</div>
+	</div>	
 	
-	<ul id="routes-list" class="list-group hidden">
-		<li class="list-group-item">
-			<img src="/img/pedestrian-icon.png" alt="ecobici" class="transport-icon"/>
-			<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
-			<img src="/img/metro-icon.png" alt="metro" class="transport-icon"/>
-			<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
-			<img src="/img/taxi-icon.png" alt="metro" class="transport-icon"/>
-		</li>
-
-		<li class="list-group-item">
-			<img src="/img/pedestrian-icon.png" alt="ecobici" class="transport-icon"/>
-			<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
-			<img src="/img/metrobus-icon.png" alt="metrobus" class="transport-icon"/>
-			<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
-			<img src="/img/ecobici-icon.png" alt="ecobici" class="transport-icon"/>
-		</li>
-
-		<li class="list-group-item">
-			<img src="/img/pedestrian-icon.png" alt="ecobici" class="transport-icon"/>
-			<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
-			<img src="/img/metrobus-icon.png" alt="metrobus" class="transport-icon"/>
-			<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
-			<img src="/img/metro-icon.png" alt="metro" class="transport-icon"/>
-			<img src="/img/arrow.png" alt="metro" class="transport-icon"/>
-			<img src="/img/uber-icon.png" alt="metro" class="transport-icon"/>
-		</li>
-	</ol>
 </div>
 {% endblock %}
 
 {% block scripts %}
 {{ super() }}
+<script src="/js/sprintf.min.js"></script>
+<script src="/js/jquery.knob.min.js"></script>
 <script src="/js/route.js"></script>
 {% endblock %}
