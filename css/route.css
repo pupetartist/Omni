@@ -1,32 +1,74 @@
 .transport-icon {
-	 width: 64px;
-	 height: 64px;
+	 width: 52px;
+	 height: 52px;
+}
+
+.line-3 {
+	 color: rgb(165, 153, 56);
+	 font-weight: bold;
+}
+
+.route-main-characteristic {
+	 width: 70px;
+	 height: 70px;
+}
+
+#route-instructions > ul {
+    margin-top: 10px;
+}
+
+.route-step {
+    margin-bottom: 10px;
+}
+
+figcaption.title {
+	 font-size: 11pt;
+	 font-weight: bold;
+	 font-family: 'Helvetica';
 }
 
 .arrow {
-	 width: 64px;
-	 height: 64px;
+	 width: 48px;
+	 height: 48px;
 }
 
 .selected {
-	 background: rgba(0, 160, 233, 0.2);
+	 background: rgb(203, 235, 250);
+}
+
+.tab {
+	 border-top-left-radius: 50px !important;
 }
 
 .timer {
-	 padding: 5px;
-	 background: rgba(153, 153, 153, 0.5);
-	 border-radius: 10px;
-	 margin-left: auto;
-	 margin-right: auto;
-	 width: 100px;
+	 width: 120px;
+}
+
+.route-img-summary {
+	 margin-top: 20px;
 }
 
 figure {
 	 display: inline-block;
 }
 
+.inline-text-icon {
+	 width: 40px;
+	 height: 40px;
+}
+
+.centered {
+	 width: 100px;
+	 height: 50px;
+	 text-align: center;
+	 display: inline-block;
+}
+
+figure > img {
+	 text-align: center;
+}
+
 figcaption {
-	 margin-bottom: 0;
 	 font-size: 10pt;
 	 text-align: center;
 }

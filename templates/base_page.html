@@ -15,15 +15,17 @@
 	<form class="col-md-9" id="search" method="GET" action="/route">
 		<div class="form-horizontal">
 			<div class="form-group has-feedback">
-				<label class="control-label col-md-3" for="destination">Where are you?</label>
+				<label class="control-label col-md-3" for="destination">
+					<strong>¿Dónde estás?</strong>
+				</label>
 				<div class="col-md-8">
 					<div class="input-group">
 						<input type="text" class="form-control" name="origin" id="origin"
 							value="{{origin}}"
-							placeholder="Type a place or location" required />
+							placeholder="E.g. Plaza Antara Polanco" required />
 						<div class="input-group-btn">
 							<button type="button" class="btn btn-default" id="find-me">
-								Find me!
+								¡Encuéntrame!
 							</button>
 						</div>
 					</div>
@@ -34,15 +36,15 @@
 		<div class="form-horizontal">
 			<div class="form-group has-feedback">
 				<label class="control-label col-md-3" for="destination">
-					Where are you going?
+					<strong>¿A dónde vas?</strong>
 				</label>
 				<div class="col-md-8">
 					<div class="input-group">
 						<input type="text" class="form-control" name="destination"
-							id="destination" placeholder="Type a place or location" required
+							id="destination" placeholder="Venustiano Carranza 7, San Bartolo, Naucalpan" required
 							value="{{destination}}" />
 						<div class="input-group-btn">
-							<button type="submit" class="btn btn-primary inline">Go!</button>
+							<button type="submit" class="btn btn-primary inline">¡Buscar!</button>
 						</div>
 					</div>
 				</div>
