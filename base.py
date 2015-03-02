@@ -1,31 +1,21 @@
-import logging
 import webapp2
-import util
 import os
-import datetime
+import logging
 import json
 
-from google.appengine.ext import ndb
+import util
+
 from jinja2 import Environment, FileSystemLoader
-from json import JSONEncoder
 from jinja2.filters import do_capitalize, do_truncate
 
 import datetime_format
+import encoders
 
 templates_dir = os.path.join(os.path.dirname(__file__), 'templates')
-jinja_env = Environment(loader = FileSystemLoader(templates_dir), autoescape = True)
+jinja_env = Environment(loader=FileSystemLoader(templates_dir), autoescape=True)
 jinja_env.filters['do_capitalize'] = do_capitalize
 jinja_env.filters['do_truncate'] = do_truncate
 jinja_env.filters['datetime'] = datetime_format.simple_datetime
-
-class GaeJsonEncoder(JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, datetime.datetime):
-            return obj.strftime('%a %b %d %H:%M:%S %Y')
-        elif isinstance(obj, ndb.Model):
-            return obj.to_dict()
-        else:
-            return JSONEncoder.default(self, obj)
 
 class BaseHandler(webapp2.RequestHandler):
     def initialize(self, *params, **named_params):
@@ -58,4 +48,4 @@ class BaseHandler(webapp2.RequestHandler):
 
     def send_as_json(self, obj):
         self.response.headers['Content-Type'] = 'application/json;charset=UTF-8'
-        self.write(json.dumps(obj, cls=GaeJsonEncoder))
+        self.write(json.dumps(obj, cls=encoders.JsonEncoder.encoder))

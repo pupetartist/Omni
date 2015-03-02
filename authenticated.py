@@ -42,8 +42,8 @@ class AuthenticatedHandler(BaseHandler):
 
     def get_logged_in_account(self):
         account_id = self.get_session_id()
-        if account_id:
-            return Account.get_by_id(long(account_id))
+        if account_id is not None:
+            return Account.by_id(account_id)
 
     def is_logged_in(self):
         return self.account != None
@@ -54,7 +54,8 @@ class AuthenticatedHandler(BaseHandler):
     def get_session_id(self):
         account_id_cookie = self.request.cookies.get(cookies.USER_ID, None)
         if account_id_cookie:
-            return security.get_secure_cookie_value(account_id_cookie)
+            _id = security.get_secure_cookie_value(account_id_cookie)
+            return _id and long(_id)
 
     def establish_session(self, account):
         self.abandon_session()
@@ -73,4 +74,3 @@ class AuthenticatedHandler(BaseHandler):
         if not account:
             return 'Invalid username or password'
         self.establish_session(account)
-    
