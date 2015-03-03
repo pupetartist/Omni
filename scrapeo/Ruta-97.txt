@@ -1,0 +1,78 @@
+
+        $(function () {        
+              var routeCoords = [
+                    new google.maps.LatLng(19.405070444, -99.161540692),            
+                    new google.maps.LatLng(19.4056168888, -99.158600991),            
+                    new google.maps.LatLng(19.406305002, -99.1554896285),            
+                    new google.maps.LatLng(19.4066288189, -99.1507152964),            
+                    new google.maps.LatLng(19.4069526352, -99.1453079631),            
+                    new google.maps.LatLng(19.4073169277, -99.1401152064),            
+                    new google.maps.LatLng(19.4086121835, -99.1322187831),            
+                    new google.maps.LatLng(19.4089764723, -99.1220049312),            
+                    new google.maps.LatLng(19.4084502771, -99.1128639628),            
+                    new google.maps.LatLng(19.4087336132, -99.1129497935),            
+              ];  
+              var routeCoords2 = [ 
+                    
+                        new google.maps.LatLng(19.4087336132, -99.1129497935),            
+                        new google.maps.LatLng(19.4133478746, -99.1127781321),            
+                        new google.maps.LatLng(19.4137121528, -99.1152672221),            
+                        new google.maps.LatLng(19.4135907269, -99.1216616084),            
+                        new google.maps.LatLng(19.4131454975, -99.1338924815),            
+                        new google.maps.LatLng(19.4131859729, -99.1351370265),            
+                        new google.maps.LatLng(19.4139550045, -99.141059344),            
+                        new google.maps.LatLng(19.4148049826, -99.1512302806),            
+                        new google.maps.LatLng(19.4129431201, -99.1544060161),            
+                        new google.maps.LatLng(19.4115264713, -99.1608433177),            
+                        new google.maps.LatLng(19.4105550478, -99.1656498362),            
+                        new google.maps.LatLng(19.4090169488, -99.1655210902),            
+                        new google.maps.LatLng(19.4085514686, -99.165467446),            
+                        new google.maps.LatLng(19.4082276555, -99.166711991),            
+                        new google.maps.LatLng(19.4061633319, -99.1662828376),            
+                        new google.maps.LatLng(19.4050906827, -99.1661540915),            
+                        new google.maps.LatLng(19.4042608927, -99.1660038878),            
+                        new google.maps.LatLng(19.4043823257, -99.1650812079),            
+                        new google.maps.LatLng(19.4047263852, -99.1632143905),            
+                        new google.maps.LatLng(19.4048680566, -99.1623346259),            
+                        new google.maps.LatLng(19.4049490116, -99.1618840148),            
+              ];  
+
+              var myOptions = {            
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                streetViewControl: false,
+                mapTypeControl: false,
+              };
+
+              var map = new google.maps.Map(document.getElementById("map"), myOptions);
+          
+              var bounds = new google.maps.LatLngBounds();
+              for (i = 0; i < routeCoords.length; i++) {             
+                bounds.extend(routeCoords[i]);
+              }
+              for (i = 0; i < routeCoords2.length; i++) {             
+                bounds.extend(routeCoords2[i]);
+              }
+              map.fitBounds( bounds );
+
+              var path = new google.maps.Polyline({
+                path: routeCoords,
+                strokeColor: "#FF0000",
+                strokeOpacity: 0.6,
+                strokeWeight: 5
+              });
+              path.setMap(map);
+
+              
+                var path2 = new google.maps.Polyline({
+                    path: routeCoords2,
+                    strokeColor: "#0000FF",
+                    strokeOpacity: 0.6,
+                    strokeWeight: 5
+                });
+                path2.setMap(map);
+              
+
+              $("#streetfrom").focus();
+        });
+    
+    

@@ -1,0 +1,55 @@
+
+        $(function () {        
+              var routeCoords = [
+                    new google.maps.LatLng(19.4199731611, -99.1753005981),            
+                    new google.maps.LatLng(19.421268316, -99.1227722167),            
+                    new google.maps.LatLng(19.421268316, -99.1164636611),            
+              ];  
+              var routeCoords2 = [ 
+                    
+                        new google.maps.LatLng(19.421268316, -99.1164636611),            
+                        new google.maps.LatLng(19.4211064222, -99.1165065765),            
+                        new google.maps.LatLng(19.421470683, -99.1220855712),            
+                        new google.maps.LatLng(19.420701687, -99.1437149047),            
+                        new google.maps.LatLng(19.4199326873, -99.1753435134),            
+              ];  
+
+              var myOptions = {            
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                streetViewControl: false,
+                mapTypeControl: false,
+              };
+
+              var map = new google.maps.Map(document.getElementById("map"), myOptions);
+          
+              var bounds = new google.maps.LatLngBounds();
+              for (i = 0; i < routeCoords.length; i++) {             
+                bounds.extend(routeCoords[i]);
+              }
+              for (i = 0; i < routeCoords2.length; i++) {             
+                bounds.extend(routeCoords2[i]);
+              }
+              map.fitBounds( bounds );
+
+              var path = new google.maps.Polyline({
+                path: routeCoords,
+                strokeColor: "#FF0000",
+                strokeOpacity: 0.6,
+                strokeWeight: 5
+              });
+              path.setMap(map);
+
+              
+                var path2 = new google.maps.Polyline({
+                    path: routeCoords2,
+                    strokeColor: "#0000FF",
+                    strokeOpacity: 0.6,
+                    strokeWeight: 5
+                });
+                path2.setMap(map);
+              
+
+              $("#streetfrom").focus();
+        });
+    
+    

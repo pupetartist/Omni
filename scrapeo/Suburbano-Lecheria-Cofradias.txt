@@ -1,0 +1,51 @@
+
+        $(function () {        
+              var routeCoords = [
+                    new google.maps.LatLng(19.6892281857, -99.232493341),            
+                    new google.maps.LatLng(19.687915331, -99.222513593),            
+                    new google.maps.LatLng(19.6871681614, -99.212533845),            
+                    new google.maps.LatLng(19.685512183, -99.2027452856),            
+                    new google.maps.LatLng(19.6784825935, -99.2015359341),            
+                    new google.maps.LatLng(19.6690294488, -99.1998897074),            
+                    new google.maps.LatLng(19.651495629, -99.1969405767),            
+                    new google.maps.LatLng(19.616503091, -99.1911281459),            
+                    new google.maps.LatLng(19.615393859, -99.1863268241),            
+                    new google.maps.LatLng(19.6117200508, -99.1865947098),            
+                    new google.maps.LatLng(19.6055041521, -99.1869588196),            
+                    new google.maps.LatLng(19.6008745238, -99.1868931055),            
+                    new google.maps.LatLng(19.5986395702, -99.1874697804),            
+                    new google.maps.LatLng(19.5988594031, -99.1868045926),            
+              ];  
+              var routeCoords2 = [ 
+              ];  
+
+              var myOptions = {            
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                streetViewControl: false,
+                mapTypeControl: false,
+              };
+
+              var map = new google.maps.Map(document.getElementById("map"), myOptions);
+          
+              var bounds = new google.maps.LatLngBounds();
+              for (i = 0; i < routeCoords.length; i++) {             
+                bounds.extend(routeCoords[i]);
+              }
+              for (i = 0; i < routeCoords2.length; i++) {             
+                bounds.extend(routeCoords2[i]);
+              }
+              map.fitBounds( bounds );
+
+              var path = new google.maps.Polyline({
+                path: routeCoords,
+                strokeColor: "#FF0000",
+                strokeOpacity: 0.6,
+                strokeWeight: 5
+              });
+              path.setMap(map);
+
+
+              $("#streetfrom").focus();
+        });
+    
+    
