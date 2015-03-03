@@ -5,17 +5,17 @@ api_version: 1
 threadsafe: true
 
 handlers:
-- url: /fonts
-  static_dir: fonts
+- url: /static/fonts
+  static_dir: static/fonts
 
-- url: /css
-  static_dir: css
+- url: /static/css
+  static_dir: static/css
 
-- url: /img
-  static_dir: img
+- url: /static/img
+  static_dir: static/img
 
-- url: /js
-  static_dir: js
+- url: /static/js
+  static_dir: static/js
 
 - url: /.*
   script: omni.application
@@ -25,3 +25,11 @@ libraries:
   version: latest
 - name: jinja2
   version: latest
+
+# This directory is where the virtual environment packages live
+skip_files:
+- ^env/.*
+- ^gaenv/.*
+- .cfconfig
+- Procfile
+- manifest.yml

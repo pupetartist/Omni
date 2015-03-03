@@ -2,14 +2,14 @@
 
 {% block head %}
 {{ super() }}
-<link rel="stylesheet" href="/css/base_page.css">
+<link rel="stylesheet" href="/static/css/base_page.css">
 {% endblock %}
 
 {% block content %}
 <div class="row" id="mainbar">
 	<div class="col-md-3">
 		<a href="/">
-			<img src="/img/omnimobi.jpg" alt="Omnimobie" class="logo"> 
+			<img src="/static/img/omnimobi.jpg" alt="Omnimobie" class="logo"> 
 		</a>
 	</div>	
 	<form class="col-md-9" id="search" method="GET" action="/route">
@@ -58,5 +58,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="/js/base_page.js"></script>
+<script src="/static/js/base_page.js"></script>
 {% endblock %}
