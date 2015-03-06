@@ -242,7 +242,7 @@ $(document).ready(function() {
 						  $('#find-me').focus();
 					 },
 					 {
-						  enableHighAccuracy: false,
+						  enableHighAccuracy: true,
 						  /* TODO: What's the right timeout to strike a balance between accuracy and usability? */
 						  timeout: 10 * 1000, /* ms == 10 seconds */
 						  maximumAge: 60 * 1000 /* ms == 60 seconds */
