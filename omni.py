@@ -3,6 +3,7 @@ import webapp2
 import models
 import encoders
 import util
+import os
 
 from base import BaseHandler
 
@@ -38,6 +39,28 @@ def select_encoder():
 models.Persistence().engine = select_persistence_engine()
 encoders.JsonEncoder().encoder = select_encoder()
 
-application = webapp2.WSGIApplication([
-    ('/?', Main),
-    ('/route', Route)], debug=True)
+routing = [
+    (r'/?', Main),
+    (r'/route', Route)
+]
+
+config = {}
+
+if not util.on_gae_platform():
+    import webapp2_static
+    routing.insert(0, (r'/static/(.+)', webapp2_static.StaticFileHandler))
+    config.update({'webapp2_static.static_file_path': 'static/'})
+    
+application = webapp2.WSGIApplication(routing, config=config, debug=True)
+
+# This is just to support running out of GAE
+# Inside GAE, static routes are specified in the yaml file
+def main():
+    from paste import httpserver
+    port = os.getenv('VCAP_APP_PORT', 11080)
+    host = os.getenv('VCAP_APP_HOST', 'localhost')
+    httpserver.serve(application, host=host, port=port)
+
+if __name__ == '__main__':
+    if not util.on_gae_platform():
+        main()

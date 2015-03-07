@@ -40,10 +40,6 @@ figcaption.title {
 	 border-top-left-radius: 50px !important;
 }
 
-.timer {
-	 width: 120px;
-}
-
 .route-img-summary {
 	 margin-top: 20px;
 }
@@ -77,29 +73,4 @@ figcaption {
 	 width: 95%;
 	 margin-left: auto;
 	 margin-right: auto;
-}
-
-.glyphicon-spin {
-	 -webkit-animation: spin 1000ms infinite linear;
-	 animation: spin 1000ms infinite linear;
-}
-@-webkit-keyframes spin {
-	 0% {
-		  -webkit-transform: rotate(0deg);
-		  transform: rotate(0deg);
-	 }
-	 100% {
-		  -webkit-transform: rotate(359deg);
-		  transform: rotate(359deg);
-	 }
-}
-@keyframes spin {
-	 0% {
-		  -webkit-transform: rotate(0deg);
-		  transform: rotate(0deg);
-	 }
-	 100% {
-		  -webkit-transform: rotate(359deg);
-		  transform: rotate(359deg);
-	 }
 }
