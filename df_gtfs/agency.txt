@@ -1,0 +1,7 @@
+﻿agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone
+CC,ci-sa/corevsa NOCHEbus,http://www.ci-sa.com.mx/,America/Mexico_City,,5566-7575
+MB,Metrobús,http://www.metrobus.df.gob.mx/,America/Mexico_City,,5761-6858 (121) (136)
+METRO,Sistema de Transporte Colectivo-Metro,http://www.metro.df.gob.mx/,America/Mexico_City,,5709-1133 (5051) (5009)
+RTP,Red de Transporte de Pasajeros,http://www.rtp.gob.mx/,America/Mexico_City,,5566-5891
+STE,Servicio de Transportes Eléctricos,http://www.ste.df.gob.mx/,America/Mexico_City,,5539-2800
+SUB,Ferrocarriles Suburbanos,http://www.fsuburbanos.com/,America/Mexico_City,,1946-0790
