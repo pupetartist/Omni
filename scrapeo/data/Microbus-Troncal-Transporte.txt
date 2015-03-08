@@ -1,0 +1,89 @@
+rrrrMicrobus-Troncal-Transporte.txt
+
+        $(function () {        
+              var routeCoords = [
+                    new google.maps.LatLng(19.4087210682, -99.0768742561),            
+                    new google.maps.LatLng(19.4046328848, -99.0697503089),            
+                    new google.maps.LatLng(19.3981563443, -99.0586352348),            
+                    new google.maps.LatLng(19.3941083755, -99.051554203),            
+                    new google.maps.LatLng(19.3911532948, -99.046189785),            
+                    new google.maps.LatLng(19.3852834548, -99.0360188484),            
+                    new google.maps.LatLng(19.3800206597, -99.026620388),            
+                    new google.maps.LatLng(19.373300228, -99.0170502662),            
+                    new google.maps.LatLng(19.368118019, -99.0101408958),            
+                    new google.maps.LatLng(19.3647575924, -99.0055060386),            
+                    new google.maps.LatLng(19.3590082681, -98.9983391761),            
+                    new google.maps.LatLng(19.3576721285, -98.9945197105),            
+                    new google.maps.LatLng(19.3457678561, -98.9815163612),            
+                    new google.maps.LatLng(19.3386815674, -98.9758086204),            
+                    new google.maps.LatLng(19.3271201332, -98.9753043651),            
+                    new google.maps.LatLng(19.3291449619, -98.9751112461),            
+                    new google.maps.LatLng(19.3270188911, -98.9759480953),            
+                    new google.maps.LatLng(19.3274846042, -98.9769780635),            
+                    new google.maps.LatLng(19.3258039811, -98.9776432514),            
+              ];  
+              var routeCoords2 = [ 
+                    
+                        new google.maps.LatLng(19.3258039811, -98.9776432514),            
+                        new google.maps.LatLng(19.3273428656, -98.9768707752),            
+                        new google.maps.LatLng(19.32916521, -98.9750683307),            
+                        new google.maps.LatLng(19.2760456621, -98.8993442058),            
+                        new google.maps.LatLng(19.3287602464, -98.9727938175),            
+                        new google.maps.LatLng(19.3282337921, -98.9691460132),            
+                        new google.maps.LatLng(19.3312912529, -98.9691460132),            
+                        new google.maps.LatLng(19.2744657851, -98.8976490497),            
+                        new google.maps.LatLng(19.3387625552, -98.9757120609),            
+                        new google.maps.LatLng(19.3459500709, -98.9814198017),            
+                        new google.maps.LatLng(19.3594941343, -98.996053934),            
+                        new google.maps.LatLng(19.360162198, -98.9993584156),            
+                        new google.maps.LatLng(19.3649600297, -99.0055382251),            
+                        new google.maps.LatLng(19.3693123709, -99.0112674236),            
+                        new google.maps.LatLng(19.37354314, -99.0170824527),            
+                        new google.maps.LatLng(19.3787859023, -99.0244638919),            
+                        new google.maps.LatLng(19.3853239372, -99.0356218814),            
+                        new google.maps.LatLng(19.3915581036, -99.0461468696),            
+                        new google.maps.LatLng(19.3989254469, -99.0591931343),            
+                        new google.maps.LatLng(19.40503766, -99.0698361396),            
+                        new google.maps.LatLng(19.4091663097, -99.0768313407),            
+                        new google.maps.LatLng(19.412282966, -99.0823245048),            
+              ];  
+
+              var myOptions = {            
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                streetViewControl: false,
+                mapTypeControl: false,
+              };
+
+              var map = new google.maps.Map(document.getElementById("map"), myOptions);
+          
+              var bounds = new google.maps.LatLngBounds();
+              for (i = 0; i < routeCoords.length; i++) {             
+                bounds.extend(routeCoords[i]);
+              }
+              for (i = 0; i < routeCoords2.length; i++) {             
+                bounds.extend(routeCoords2[i]);
+              }
+              map.fitBounds( bounds );
+
+              var path = new google.maps.Polyline({
+                path: routeCoords,
+                strokeColor: "#FF0000",
+                strokeOpacity: 0.6,
+                strokeWeight: 5
+              });
+              path.setMap(map);
+
+              
+                var path2 = new google.maps.Polyline({
+                    path: routeCoords2,
+                    strokeColor: "#0000FF",
+                    strokeOpacity: 0.6,
+                    strokeWeight: 5
+                });
+                path2.setMap(map);
+              
+
+              $("#streetfrom").focus();
+        });
+    
+    
