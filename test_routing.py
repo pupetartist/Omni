@@ -4,13 +4,140 @@ from geopy.distance import vincenty
 from routing import Path, Router
 import geojson
 import json
+from bluemix.cloudant_manager import account
+
+
+class GenericFactory:
+    __instance = None
+
+    def __init__(self, db_name='omnimobi'):
+        self.db_name = db_name
+        self.db = account.database(db_name)
+        self.node_instances = dict()
+
+    @classmethod
+    def get_instance(cls):
+        if cls.__instance is None:
+            cls.__instance = GenericFactory()
+
+        return cls.__instance
+
+    def create_object(self, node_id):
+        if node_id in self.node_instances:
+            return self.node_instances[node_id]
+
+        resp = self.db.document(node_id)
+        req = resp.get()
+        d = req.json()
+        factory = GenericFactory.get_instance()
+
+        if d['type'] == 'node':
+            req = MetroNode(node_id, d)
+            self.node_instances[node_id] = req
+            for conn in d['connections']:
+                req.add_connection(conn['route_id'], NodeConnection(conn))
+            for r in d['routes']:
+                req.add_route(r, factory.create_object(r))
+        elif d['type'] == 'route':
+            req = Route(node_id, d)
+            self.node_instances[node_id] = req
+            req.start_node = factory.create_object(d['start_node_id'])
+            req.finish_node = factory.create_object(d['finish_node_id'])
+            for node_id in d['components']:
+                req.add_component(factory.create_object(node_id))
+
+        return req
+
+
+class Route:
+    def __init__(self, _id, d):
+        self.__id = _id
+        self.__name = d['name']
+        self.__transport_type = d['transport_type']
+        self.__provider = d['transport_provider']
+        self.__components = []
+        self.__start_node = None
+        self.__finish_node = None
+
+    @property
+    def start_node(self):
+        return self.__start_node
+
+    @start_node.setter
+    def start_node(self, value):
+        self.__start_node = value
+
+    @property
+    def finish_node(self):
+        return self.__finish_node
+
+    @finish_node.setter
+    def finish_node(self, value):
+        self.__finish_node = value
+
+    @property
+    def key(self):
+        return self.__id
+
+    @property
+    def name(self):
+        return self.__name
+
+    @property
+    def geolocation(self):
+        return self.__geolocation
+
+    @property
+    def transport_type(self):
+        return self.__transport_type
+
+    @property
+    def provider(self):
+        return self.__provider
+
+    @property
+    def components(self):
+        return self.__components
+
+    def add_component(self, node_obj):
+        self.__components.append(node_obj)
+
+
+class NodeConnection:
+    def __init__(self, d):
+        factory = GenericFactory.get_instance()
+        if 'node_id_backward' in d:
+            self.__backward = factory.create_object(d['node_id_backward'])
+        else:
+            self.__backward = None
+        if 'node_id_foward' in d:
+            self.__forward = factory.create_object(d['node_id_foward'])
+        else:
+            self.__forward = None
+        self.__route = factory.create_object(d['route_id'])
+
+    @property
+    def backward(self):
+        return self.__backward
+
+    @property
+    def forward(self):
+        return self.__forward
+
+    @property
+    def route(self):
+        return self.__route
+
 
 class MetroNode:
-    def __init__(self, name, geolocation=None, connections=[]):
-        self.__name = name
-        self.__connections = set(connections)
-        self.__geolocation = geolocation
-        self.__routes = set()
+    def __init__(self, _id, d):
+        self.__id = _id
+        self.__name = d['name']
+        self.__geolocation = d['geolocation']
+        self.__transport_type = d['transport_type']
+        self.__provider = d['transport_provider']
+        self.__routes = dict()
+        self.__connections = dict()
 
     # For this model, cost is time in minutes
     @property
@@ -19,7 +146,7 @@ class MetroNode:
 
     @property
     def key(self):
-        return self.name
+        return self.__id
 
     @property
     def name(self):
@@ -35,11 +162,11 @@ class MetroNode:
 
     @property
     def transport_type(self):
-        return 'Subway'
+        return self.__transport_type
 
     @property
     def provider(self):
-        return 'STC Metro'
+        return self.__provider
 
     @property
     def routes(self):
@@ -58,11 +185,11 @@ class MetroNode:
     def shares_route(self, other):
         return (self.routes & other.routes) != set()
 
-    def add_route(self, route):
-        self.routes.add('metro-' + route)
+    def add_route(self, route_id, route_obj):
+        self.__routes[route_id] = route_obj
 
-    def add_connection(self, node):
-        self.connections.add(node)
+    def add_connection(self, route_id, conn_obj):
+        self.__connections[route_id] = conn_obj
 
     def transfer_cost(self, route):
         if route not in self.routes:
@@ -77,13 +204,15 @@ class MetroNode:
         return distance / average_velocity_in_kmh
 
     def __eq__(self, other):
-        return self.key == other.key
+        if not isinstance(other, MetroNode):
+            return False
+        return self.__id == other.__id
 
     def __hash__(self):
-        return hash(self.key)
+        return hash(self.__id)
 
     def __repr__(self):
-        connections_repr = str(map(lambda node: node.full_name, self.connections))
+        connections_repr = str(self.__connections.keys())
         return '%s; Connections: %s' % (self.full_name, connections_repr)
 
 
@@ -218,6 +347,7 @@ def load_network():
 
     return network
 
+
 def build_weighted_path(network, nodes_names):
     n = len(nodes_names)
     path = Path(network.node(nodes_names[0]))
@@ -262,3 +392,9 @@ def geojson_test(begin='Cuatro Caminos', end='Juanacatlan'):
     print Path.as_geojson(path)
 
 #geojson_test()
+
+if __name__ == "__main__":
+    f = GenericFactory.get_instance()
+    obj = f.create_object('00c17928-b42c-42e6-ba26-20e83799ca4a')
+    print obj
+    print obj.__dict__
