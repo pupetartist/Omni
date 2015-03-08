@@ -16,6 +16,13 @@
 
 <link rel="stylesheet" href="/static/css/main.css">
 
+<!-- en este .js es donde se cargan los puntos que componen el layer geojson-->
+
+
+<script src="/static/js/rutas.js" type="text/javascript"></script>
+
+
+
 {% endblock %}
 
 {% block page_content %}
@@ -41,10 +48,12 @@
 
 		L.marker([19.43270,-99.13412]).addTo(map)
 			.bindPopup("<b>Inicio </b><br />Mi primera ruta.").openPopup();
+		
 
-		addTo(map).bindPopup("I am a circle.");
+		//addTo(map).bindPopup("Circulo.");
 
 
+//pop up ejemplo para que se muestre como funciona leaflet
 
 		
 		var popup = L.popup();
@@ -59,12 +68,23 @@
 		map.on('click', onMapClick);
 
 
-//layer geojson, para cargar los datos
+/// defino la funcion OnEachFeature para despues cargarla en la layer
+
+	function onEachFeature(feature, layer) {
+			var popupContent = "<p> Estacion " +
+					feature.geometry.type + "soy una parada</p>";
+
+			if (feature.properties && feature.properties.popupContent) {
+				popupContent += feature.properties.popupContent;
+			}
+
+			layer.bindPopup(popupContent);
+		}
+
+//layer geojson, para cargar los datos, estos se cargan de rutas.js
 
 
-
-
-L.geoJson(rutas, {
+L.geoJson( rutas, {
  			style: function (feature) {
 				return feature.properties && feature.properties.style;
 			},
@@ -73,7 +93,7 @@ L.geoJson(rutas, {
 
 			pointToLayer: function (feature, latlng) {
 				return L.circleMarker(latlng, {
-					radius: 8,
+					radius: 3,
 					fillColor: "#ff7800",
 					color: "#000",
 					weight: 1,
@@ -83,19 +103,6 @@ L.geoJson(rutas, {
 			}
 		}).addTo(map);
 
-
-var geojsonFeature = {
-    "type": "Feature",
-    "properties": {
-        "name": "Coors Field",
-        "amenity": "Baseball Stadium",
-        "popupContent": "This is where the Rockies play!"
-    },
-    "geometry": {
-        "type": "Point",
-        "coordinates": [19.43270,-99.13412]
-    }
-};
 
 
 	</script>
