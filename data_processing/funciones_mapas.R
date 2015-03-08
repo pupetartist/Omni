@@ -92,7 +92,7 @@ recategoriza <- function(x, catList, default.cat) {
 
 process_node <- function(row_list, cetram_info, route_info, num_routes=1) {
   json_node = list()
-  json_node$id = row_list$uuid
+  json_node$`_id` = row_list$uuid
   json_node$type = 'node'
   if(num_routes==1)
     json_node$name = sprintf('%s %s', route_info$name, row_list$pointName)
@@ -109,6 +109,7 @@ process_node <- function(row_list, cetram_info, route_info, num_routes=1) {
 
 process_route <- function(cetram_info) {
   json_route = list()
+  json_route$transport_type = 'bus'
   json_route$transport_provider = cetram_info$provider 
   if(cetram_info$route=='Desconocido') {
     json_route$name = sprintf('%s %s', cetram_info$provider, cetram_info$DERROTERO.1)
@@ -116,7 +117,7 @@ process_route <- function(cetram_info) {
     json_route$name = sprintf('%s %s %s', cetram_info$provider, cetram_info$route, cetram_info$DERROTERO.1)
   }
   json_route$type = 'route'
-  json_route$id = UUIDgenerate()
+  json_route$`_id` = UUIDgenerate()
   return(json_route)
 }
 
@@ -148,23 +149,28 @@ procesa_cetram <- function(csv_file) {
         
         route_json = process_route(cetram_list[[i]])
         node_json_list = lapply(df_ruta_list, process_node, cetram_info=cetram_list[[i]], route_info=route_json)
-        route_json$components = unname(sapply(node_json_list, FUN=function(x) x$id))
+        route_json$components = unname(sapply(node_json_list, FUN=function(x) x$`_id`))
         num_nodes = length(node_json_list) 
         if(num_nodes>1) {
           for(idx in seq(node_json_list)) {
             if(idx==1) {
-              node_json_list[[idx]]$connections = list(node_id_foward=node_json_list[[idx + 1]]$id)
+              node_json_list[[idx]]$connections = list(route_id=route_json$`_id`,
+                                                       node_id_foward=node_json_list[[idx + 1]]$`_id`)
               #if(node_json_list[[idx]]$name=='Inicio')
-              route_json$start_node_id = node_json_list[[idx]]$id 
+              route_json$start_node_id = node_json_list[[idx]]$`_id` 
             }
             else if(idx==num_nodes) {
-              node_json_list[[idx]]$connections = list(node_id_backward=node_json_list[[idx - 1]]$id)
+              node_json_list[[idx]]$connections = list(route_id=route_json$`_id`,
+                                                       node_id_backward=node_json_list[[idx - 1]]$`_id`)
               #if(node_json_list[[idx]]$name=='Fin')
-              route_json$finish_node_id = node_json_list[[idx]]$id
+              route_json$finish_node_id = node_json_list[[idx]]$`_id`
             }
             else
-              node_json_list[[idx]]$connections = list(node_id_foward=node_json_list[[idx + 1]]$id, node_id_backward=node_json_list[[idx - 1]]$id)
-            node_json_list[[idx]]$routes = route_json$id
+              node_json_list[[idx]]$connections = list(route_id=route_json$`_id`,
+                                                       node_id_foward=node_json_list[[idx + 1]]$`_id`,
+                                                       node_id_backward=node_json_list[[idx - 1]]$`_id`)
+            node_json_list[[idx]]$routes = list(route_json$`_id`)
+            node_json_list[[idx]]$connections = list(node_json_list[[idx]]$connections)
           }
         }
         write2file(toJSON(unname(node_json_list)), sprintf('out/nodes_%s.json', route_json$name))
