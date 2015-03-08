@@ -1,7 +1,11 @@
+# -*- coding: utf-8 -*-
+
 from geopy.distance import vincenty
 from routing import Path, Router
+import geojson
+import json
 
-class Node:
+class MetroNode:
     def __init__(self, name, geolocation=None, connections=[]):
         self.__name = name
         self.__connections = set(connections)
@@ -30,6 +34,14 @@ class Node:
         return self.__connections
 
     @property
+    def transport_type(self):
+        return 'Subway'
+
+    @property
+    def provider(self):
+        return 'STC Metro'
+
+    @property
     def routes(self):
         return self.__routes
 
@@ -47,7 +59,7 @@ class Node:
         return (self.routes & other.routes) != set()
 
     def add_route(self, route):
-        self.routes.add(route)
+        self.routes.add('metro-' + route)
 
     def add_connection(self, node):
         self.connections.add(node)
@@ -76,13 +88,12 @@ class Node:
 
 
 class Network:
-    def __init__(self, node_factory):
+    def __init__(self):
         self.nodes = {}
-        self.node_factory
 
     def get_or_create_node(self, node_name, route_name):
         if node_name not in self.nodes:
-            self.nodes[node_name] = self.node_factory.make(node_name)
+            self.nodes[node_name] = MetroNode(node_name)
         self.nodes[node_name].add_route(route_name)
         return self.nodes[node_name]
 
@@ -127,85 +138,85 @@ def build_route_nodes(network, route):
         add_connection(network, route, i, i+1)
         add_connection(network, route, i, i-1)
 
-
-class Route:
+class RouteSequence:
     def __init__(self, name, nodes_names):
         self.name = name
         self.nodes_names = nodes_names
 
-network = Network()
-route2 = Route('2', [
-    'Cuatro Caminos',
-    'Panteones',
-    'Tacuba',
-    'Cuitlahuac',
-    'Popotla',
-    'Colegio Militar',
-    'Normal',
-    'San Cosme',
-    'Revolucion',
-    'Hidalgo',
-    'Bellas Artes',
-    'Allende',
-    'Zocalo',
-    'Pino Suarez',
-    'San Antonio Abad',
-    'Chabacano',
-    'Viaducto',
-    'Xola',
-    'Villa de Cortes',
-    'Nativitas',
-    'Portales',
-    'Ermita',
-    'General Anaya',
-    'Tasqueña'
-])
+def load_network():
+    route2 = RouteSequence('2', [
+        'Cuatro Caminos',
+        'Panteones',
+        'Tacuba',
+        'Cuitlahuac',
+        'Popotla',
+        'Colegio Militar',
+        'Normal',
+        'San Cosme',
+        'Revolucion',
+        'Hidalgo',
+        'Bellas Artes',
+        'Allende',
+        'Zocalo',
+        'Pino Suarez',
+        'San Antonio Abad',
+        'Chabacano',
+        'Viaducto',
+        'Xola',
+        'Villa de Cortes',
+        'Nativitas',
+        'Portales',
+        'Ermita',
+        'General Anaya',
+        'Tasqueña'
+    ])
 
-route7 = Route('7', [
-    'El Rosario',
-    'Aquiles Serdan',
-    'Camarones',
-    'Refineria',
-    'Tacuba',
-    'San Joaquin',
-    'Polanco',
-    'Auditorio',
-    'Constituyentes',
-    'Tacubaya',
-    'San Pedro de los Pinos',
-    'San Antonio',
-    'Mixcoac',
-    'Barranca del Muerto'
-])
+    route7 = RouteSequence('7', [
+        'El Rosario',
+        'Aquiles Serdan',
+        'Camarones',
+        'Refineria',
+        'Tacuba',
+        'San Joaquin',
+        'Polanco',
+        'Auditorio',
+        'Constituyentes',
+        'Tacubaya',
+        'San Pedro de los Pinos',
+        'San Antonio',
+        'Mixcoac',
+        'Barranca del Muerto'
+    ])
 
-route1 = Route('1', [
-    'Observatorio',
-    'Tacubaya',
-    'Juanacatlan',
-    'Chapultepec',
-    'Sevilla',
-    'Insurgentes',
-    'Cuauhtemoc',
-    'Balderas',
-    'Salto del Agua',
-    'Isabel la Catolica',
-    'Pino Suarez',
-    'Merced',
-    'Candelaria',
-    'San Lazaro',
-    'Moctezuma',
-    'Balbuena',
-    'Boulevard Puerto Aereo',
-    'Gomez Farías',
-    'Zaragoza',
-    'Pantitlan'
-])
+    route1 = RouteSequence('1', [
+        'Observatorio',
+        'Tacubaya',
+        'Juanacatlan',
+        'Chapultepec',
+        'Sevilla',
+        'Insurgentes',
+        'Cuauhtemoc',
+        'Balderas',
+        'Salto del Agua',
+        'Isabel la Catolica',
+        'Pino Suarez',
+        'Merced',
+        'Candelaria',
+        'San Lazaro',
+        'Moctezuma',
+        'Balbuena',
+        'Boulevard Puerto Aereo',
+        'Gomez Farías',
+        'Zaragoza',
+        'Pantitlan'
+    ])
 
-build_route_nodes(network, route2)
-build_route_nodes(network, route7)
-build_route_nodes(network, route1)
+    network = Network()
+    build_route_nodes(network, route2)
+    build_route_nodes(network, route7)
+    build_route_nodes(network, route1)
 
-network.node('Cuatro Caminos')
+    return network
 
 def build_weighted_path(network, nodes_names):
     n = len(nodes_names)
@@ -241,3 +252,13 @@ def smoke_test():
     test_route('Cuatro Caminos', 'Tacuba')
     test_route('Cuatro Caminos', 'Colegio Militar')
     test_route('Cuatro Caminos', 'Tasqueña')
+
+def functional_test():
+    test_route('Cuatro Caminos', 'Insurgentes')
+
+def geojson_test(begin='Cuatro Caminos', end='Juanacatlan'):
+    router = Router(network)
+    path = router.enroute(network.node(begin), network.node(end))
+    print Path.as_geojson(path)
+
+#geojson_test()

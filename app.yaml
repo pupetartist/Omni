@@ -25,5 +25,5 @@ libraries:
   version: latest
 - name: jinja2
   version: latest
-- name: geopy
+- name: ssl
   version: latest

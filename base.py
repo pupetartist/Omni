@@ -47,5 +47,8 @@ class BaseHandler(webapp2.RequestHandler):
         self.add_cookie(name, '')
 
     def send_as_json(self, obj):
+        self.send_json(json.dumps(obj, cls=encoders.JsonEncoder.encoder))
+
+    def send_json(self, json_text):
         self.response.headers['Content-Type'] = 'application/json;charset=UTF-8'
-        self.write(json.dumps(obj, cls=encoders.JsonEncoder.encoder))
+        self.write(json_text)

@@ -1,0 +1,82 @@
+rrrrSruta-1-84.txt
+
+        $(function () {        
+              var routeCoords = [
+                    new google.maps.LatLng(19.3596965781, -99.0903925895),            
+                    new google.maps.LatLng(19.3594536455, -99.0896844863),            
+                    new google.maps.LatLng(19.3589677792, -99.0877962112),            
+                    new google.maps.LatLng(19.3585932562, -99.086433649),            
+                    new google.maps.LatLng(19.3582490992, -99.0857362747),            
+                    new google.maps.LatLng(19.3603241524, -99.0845561027),            
+                    new google.maps.LatLng(19.3607492821, -99.084341526),            
+                    new google.maps.LatLng(19.3636846705, -99.0832471847),            
+                    new google.maps.LatLng(19.3635834511, -99.0825819969),            
+                    new google.maps.LatLng(19.3631583289, -99.0818309783),            
+                    new google.maps.LatLng(19.3608909917, -99.0745139122),            
+                    new google.maps.LatLng(19.373097801, -99.0750288963),            
+                    new google.maps.LatLng(19.3741099332, -99.0786767005),            
+                    new google.maps.LatLng(19.3788668703, -99.0773463249),            
+                    new google.maps.LatLng(19.3772070187, -99.0675401687),            
+              ];  
+              var routeCoords2 = [ 
+                    
+                        new google.maps.LatLng(19.3772070187, -99.0675401687),            
+                        new google.maps.LatLng(19.3772475031, -99.0674757957),            
+                        new google.maps.LatLng(19.3771462921, -99.0670680999),            
+                        new google.maps.LatLng(19.3737860516, -99.0677976608),            
+                        new google.maps.LatLng(19.3726322181, -99.0703725814),            
+                        new google.maps.LatLng(19.3721666338, -99.0717029571),            
+                        new google.maps.LatLng(19.373097801, -99.0750288963),            
+                        new google.maps.LatLng(19.3609517243, -99.0745353698),            
+                        new google.maps.LatLng(19.363117841, -99.0817666053),            
+                        new google.maps.LatLng(19.363603695, -99.0825819969),            
+                        new google.maps.LatLng(19.3643729608, -99.0829896926),            
+                        new google.maps.LatLng(19.3607087936, -99.0843629837),            
+                        new google.maps.LatLng(19.3601824423, -99.0846633911),            
+                        new google.maps.LatLng(19.3608707474, -99.0850496292),            
+                        new google.maps.LatLng(19.3620853964, -99.0861225128),            
+                        new google.maps.LatLng(19.3597370669, -99.0874314308),            
+                        new google.maps.LatLng(19.3606278166, -99.0905213356),            
+                        new google.maps.LatLng(19.3597370669, -99.0907359123),            
+                        new google.maps.LatLng(19.3596763338, -99.0903496742),            
+              ];  
+
+              var myOptions = {            
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                streetViewControl: false,
+                mapTypeControl: false,
+              };
+
+              var map = new google.maps.Map(document.getElementById("map"), myOptions);
+          
+              var bounds = new google.maps.LatLngBounds();
+              for (i = 0; i < routeCoords.length; i++) {             
+                bounds.extend(routeCoords[i]);
+              }
+              for (i = 0; i < routeCoords2.length; i++) {             
+                bounds.extend(routeCoords2[i]);
+              }
+              map.fitBounds( bounds );
+
+              var path = new google.maps.Polyline({
+                path: routeCoords,
+                strokeColor: "#FF0000",
+                strokeOpacity: 0.6,
+                strokeWeight: 5
+              });
+              path.setMap(map);
+
+              
+                var path2 = new google.maps.Polyline({
+                    path: routeCoords2,
+                    strokeColor: "#0000FF",
+                    strokeOpacity: 0.6,
+                    strokeWeight: 5
+                });
+                path2.setMap(map);
+              
+
+              $("#streetfrom").focus();
+        });
+    
+    
