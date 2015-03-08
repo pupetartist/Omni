@@ -25,11 +25,5 @@ libraries:
   version: latest
 - name: jinja2
   version: latest
-
-# This directory is where the virtual environment packages live
-skip_files:
-- ^env/.*
-- ^gaenv/.*
-- .cfconfig
-- Procfile
-- manifest.yml
+- name: geopy
+  version: latest
