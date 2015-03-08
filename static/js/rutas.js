@@ -1,6 +1,4 @@
 var rutas = 
-
-
 {
     "type": "FeatureCollection",
     "features": [

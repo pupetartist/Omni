@@ -20,6 +20,11 @@ class Route(BaseHandler):
         self.render('route.html', origin=origin, destination=destination)
 
 
+class Search(BaseHandler):
+    def get(self):
+        self.render('search')
+
+
 def select_persistence_engine():
     if util.on_gae_platform():
         import db.gae
@@ -41,7 +46,8 @@ encoders.JsonEncoder().encoder = select_encoder()
 
 routing = [
     (r'/?', Main),
-    (r'/route', Route)
+    (r'/route', Route),
+    (r'/search', Search)
 ]
 
 config = {}
@@ -50,7 +56,7 @@ if not util.on_gae_platform():
     import webapp2_static
     routing.insert(0, (r'/static/(.+)', webapp2_static.StaticFileHandler))
     config.update({'webapp2_static.static_file_path': 'static/'})
-    
+
 application = webapp2.WSGIApplication(routing, config=config, debug=True)
 
 # This is just to support running out of GAE
