@@ -9,6 +9,8 @@ library(rjson)
 
 source('funciones_mapas.R')
 
+dir.create('plots')
+
 viadf = read.table('../other_data/nuevasrutas.psv', sep='|', header=F, stringsAsFactors=F)
 
 colnames(viadf) <- c('ruta', 'sentido', 'latlng')
