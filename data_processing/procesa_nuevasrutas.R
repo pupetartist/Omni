@@ -14,5 +14,5 @@ viadf = read.table('../other_data/nuevasrutas.psv', sep='|', header=F, stringsAs
 colnames(viadf) <- c('ruta', 'sentido', 'latlng')
 viadf$lat_lng <- sapply(strsplit(viadf$latlng, split = ','), FUN=function(x) paste(x, collapse=':'))
 viadf <- viadf %>% filter(lat_lng!='')
-
+viadf <- unique(viadf)
 create_html_map(viadf, 'lat_lng', 'ruta', 'plots/nuevas_rutas.html')

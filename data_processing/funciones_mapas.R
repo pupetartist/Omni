@@ -11,13 +11,13 @@ library(rjson)
 # Transoroma un objeto kml de la CETRAM en un data frame con las coordenadas
 transform_df <- function(kml_obj) {  
   df_start <- data.frame(kml_obj[[1]], pointName='Inicio') 
-  df_route <- data.frame(kml_obj[[2]], pointName='Ruta')
+  df_route <- data.frame(kml_obj[[2]], pointName='Estacion')
   df_end <- data.frame(kml_obj[[3]], pointName='Fin')
   col_labels <- c('lng', 'lat', 'elevation', 'pointName')
   colnames(df_start) <- col_labels
   colnames(df_route) <- col_labels
   colnames(df_end) <- col_labels
-  df_route$pointName <- paste(df_route$pointName, rownames(df_route), sep='')
+  df_route$pointName <- paste(df_route$pointName, rownames(df_route), sep=' ')
   df_ret <- rbind(df_start, df_route, df_end)
   
   df_ret <- df_ret %>% mutate(latlng=paste(lat, lng, sep=":"))
@@ -53,8 +53,42 @@ create_html_map <- function(df_data, location_var, tip_var, out_file) {
   return(htmlmap)
 }
 
+empresa_provider = list(
+  "Red de Transporte de Pasajeros del Distrito Federal."='RTP',
+  "Sistema de Transportes Eléctricos"='STE',
+  "Unión de Taxistas de Reforma y Ramales Ruta 2 A.C."='Microbus',
+  "Unión de Taxistas de la Ruta 15 Poniente y Ramales A. C."='Microbus',
+  "Unión de Taxistas de la Ruta 57 Aguilas, Puerta Grande, Mixcoac, Metro Tacubaya y Ramales."='Microbus',
+  "Transportes Unidos del Sur S. A. de C. V. Ruta 117"='Microbus',
+  "Autotransportes Urbanos Siglo Nuevo, S.A. de C.V. 112"='Microbus',
+  "Unión de Choferes Taxistas de Transportación Colectiva A.C. Ruta 1"='Microbus',  
+  "Unión de Permisionarios de Transporte de la Ruta 25."
+)
+
+recategoriza <- function(x, catList, default.cat) {
+  #default.cat = "Otro"
+  comp = as.character(x)
+  idx = which(comp==names(catList))
+  if(length(idx)==0)
+    return(default.cat)
+  return(catList[[idx]])
+}
+
+
+
+process_node <- function(row_list, cetram_info) {
+  json_node = list()
+  json_node$name = sprintf('%s %s', cetram_info$provider, row_list$pointName)
+  json_node$transport_type = 'bus'
+  json_node$transport_provider = cetram_info$provider
+  json_node$geolocation = c(row_list$lat, row_list$lng)
+}
+
+
 procesa_cetram <- function(csv_file) {
   cetram_table <- read.csv(csv_file, sep=';', header=T, stringsAsFactors=F)
+  cetram_table$provider = recategoriza(cetram_table$EMPRESA, empresa_provider, 'Desconocido')
+  cetram_list = unlist(cetram_table, 1:nrow(cetram_table))
   kmz_files <- dir(path='../hackdf_data/', pattern='*.kmz')
   for(i in seq(nrow(cetram_table))) {
     f_kmz_u = cetram_table[i, 'Ruta']
@@ -72,10 +106,12 @@ procesa_cetram <- function(csv_file) {
         kml_obj = getKMLcoordinates(kmlfile = 'Capa sin nombre.kml')
         df_ruta = transform_df(kml_obj)
         html_map = create_html_map(df_ruta, 'latlng', 'pointName', sprintf('plots/%s_%s.html', cetram_table[i, 'DERROTERO.1'], f_kmz))
-        obj_out = list()
-        obj_out$route_data = unlist(cetram_table[i, ]) 
-        obj_out$points = unname(  split(df_ruta[ , c('latlng', 'pointName')], seq(nrow(df_ruta))) )
-        #cat(toJSON(obj_out), '\n')
+        
+        json_obj = list()
+        json_obj$route_data = unlist(cetram_table[i, ])
+        
+        json_obj$points = unname(  split(df_ruta[ , c('latlng', 'pointName')], seq(nrow(df_ruta))) )
+        
         cat('OK\n')
       }
       else {
