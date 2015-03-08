@@ -1,0 +1,12 @@
+.Rhistory
+.Rproj.user
+
+# Los datos deben descargarse usando scripts
+*.txt
+*.kmz
+*.kml
+*.csv
+*.html
+
+# Los plots deberian ser generados
+plots/
