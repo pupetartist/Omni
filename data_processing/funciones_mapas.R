@@ -53,10 +53,50 @@ create_html_map <- function(df_data, location_var, tip_var, out_file) {
   return(htmlmap)
 }
 
+procesa_cetram <- function(csv_file) {
+  cetram_table <- read.csv(csv_file, sep=';', header=T, stringsAsFactors=F)
+  kmz_files <- dir(path='../hackdf_data/', pattern='*.kmz')
+  for(i in seq(nrow(cetram_table))) {
+    f_kmz_u = cetram_table[i, 'Ruta']
+    f_kmz = tolower(f_kmz_u)
+    cat('Filename:', f_kmz, ', Route:', cetram_table[i, 'DERROTERO.1'], '\n')
+    
+    kmz_matched = kmz_files[ grepl(f_kmz, kmz_files) ]
+    if(length(kmz_matched)==1) {
+      kmz_path = sprintf('../hackdf_data/%s', kmz_matched)  
+      if(file.exists(kmz_path)) {
+        unzip(kmz_path)
+        # Para que no salga el warning de incomplete file
+        write('\n', file='Capa sin nombre.kml', append=TRUE)
+        # salen 3 conjuntos de cordenadas: inicio, puntos de ruta, final
+        kml_obj = getKMLcoordinates(kmlfile = 'Capa sin nombre.kml')
+        df_ruta = transform_df(kml_obj)
+        html_map = create_html_map(df_ruta, 'latlng', 'pointName', sprintf('plots/%s_%s.html', cetram_table[i, 'DERROTERO.1'], f_kmz))
+        obj_out = list()
+        obj_out$route_data = unlist(cetram_table[i, ]) 
+        obj_out$points = unname(  split(df_ruta[ , c('latlng', 'pointName')], seq(nrow(df_ruta))) )
+        #cat(toJSON(obj_out), '\n')
+        cat('OK\n')
+      }
+      else {
+        cat('KMZ file not found', kmz_path, cetram_table[i, 'DERROTERO.1'], '\n')
+      }
+    }
+    else {
+      if(length(kmz_matched)==0) {
+        cat('NO KMZ files matched for', f_kmz, '\n')
+      }
+      else {
+        cat('Multiple KMZ files matched for', f_kmz, '\n')
+        print(kmz_matched)
+      }
+    }
+  }
+}
 
 # Abrir un kml: NO JALA
 #library(rgdal)
-#walker <- readOGR(dsn='data/cetram_mixcoac/Capa sin nombre.kml', layer='Capa sin nombre', verbose=T, )
+#walker <- readOGR(dsn='Capa sin nombre.kml', layer='Capa sin nombre', verbose=T, )
 
 
 #library(RgoogleMaps)

@@ -11,4 +11,4 @@ source('funciones_mapas.R')
 
 dir.create('plots')
 
-procesa_cetram('../hackdf_data/meteorolocurlcetrammixcoacrutas.csv')
+procesa_cetram('../hackdf_data/datos-de-trafico-en-puntos-especificos_cetramzapatarutas.csv')
