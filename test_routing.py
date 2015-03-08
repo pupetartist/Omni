@@ -2,8 +2,7 @@
 
 from geopy.distance import vincenty
 from routing import Path, Router
-import geojson
-import json
+from geopy.point import Point
 
 class MetroNode:
     def __init__(self, name, geolocation=None, connections=[]):
@@ -72,7 +71,7 @@ class MetroNode:
     def estimate_cost(self, destination):
         if self.geolocation is None:
             return 0.0
-        distance = vincenty(self.geolocation, destination.geolocation)
+        distance = vincenty(self.geolocation, destination.geolocation).km
         average_velocity_in_kmh = 30.0
         return distance / average_velocity_in_kmh
 
@@ -91,9 +90,10 @@ class Network:
     def __init__(self):
         self.nodes = {}
 
-    def get_or_create_node(self, node_name, route_name):
+    def get_or_create_node(self, node_name, route_name, geolocation):
         if node_name not in self.nodes:
             self.nodes[node_name] = MetroNode(node_name)
+            self.nodes[node_name].geolocation = geolocation
         self.nodes[node_name].add_route(route_name)
         return self.nodes[node_name]
 
@@ -122,93 +122,96 @@ def is_valid_index(index, sequence):
 
 
 def add_connection(network, route, from_index, to_index):
-    if not is_valid_index(from_index, route.nodes_names) or \
-       not is_valid_index(to_index, route.nodes_names):
+    if not is_valid_index(from_index, route.nodes) or \
+       not is_valid_index(to_index, route.nodes):
         return
 
-    key = route.nodes_names[from_index]
-    from_node = network.get_or_create_node(key, route.name)
-    key = route.nodes_names[to_index]
-    from_node.add_connection(network.get_or_create_node(key, route.name))
+    key = route.nodes[from_index][0]
+    geolocation = route.nodes[from_index][1]
+    from_node = network.get_or_create_node(key, route.name, geolocation)
+
+    key = route.nodes[to_index][0]
+    geolocation = route.nodes[to_index][1]
+    from_node.add_connection(network.get_or_create_node(key, route.name, geolocation))
 
 
 def build_route_nodes(network, route):
-    n = len(route.nodes_names)
+    n = len(route.nodes)
     for i in range(n):
         add_connection(network, route, i, i+1)
         add_connection(network, route, i, i-1)
 
 class RouteSequence:
-    def __init__(self, name, nodes_names):
+    def __init__(self, name, nodes):
         self.name = name
-        self.nodes_names = nodes_names
+        self.nodes = nodes
 
 def load_network():
     route2 = RouteSequence('2', [
-        'Cuatro Caminos',
-        'Panteones',
-        'Tacuba',
-        'Cuitlahuac',
-        'Popotla',
-        'Colegio Militar',
-        'Normal',
-        'San Cosme',
-        'Revolucion',
-        'Hidalgo',
-        'Bellas Artes',
-        'Allende',
-        'Zocalo',
-        'Pino Suarez',
-        'San Antonio Abad',
-        'Chabacano',
-        'Viaducto',
-        'Xola',
-        'Villa de Cortes',
-        'Nativitas',
-        'Portales',
-        'Ermita',
-        'General Anaya',
-        'Tasqueña'
+        ('Cuatro Caminos', Point()),
+        ('Panteones', Point()),
+        ('Tacuba', Point(19.459394, -99.189238)),
+        ('Cuitlahuac', Point()),
+        ('Popotla', Point()),
+        ('Colegio Militar', Point()),
+        ('Normal', Point()),
+        ('San Cosme', Point()),
+        ('Revolucion', Point()),
+        ('Hidalgo', Point()),
+        ('Bellas Artes', Point()),
+        ('Allende', Point()),
+        ('Zocalo', Point()),
+        ('Pino Suarez', Point(19.425645, -99.132888)),
+        ('San Antonio Abad', Point()),
+        ('Chabacano', Point()),
+        ('Viaducto', Point()),
+        ('Xola', Point()),
+        ('Villa de Cortes', Point()),
+        ('Nativitas', Point()),
+        ('Portales', Point()),
+        ('Ermita', Point()),
+        ('General Anaya', Point()),
+        ('Tasqueña', Point()),
     ])
 
     route7 = RouteSequence('7', [
-        'El Rosario',
-        'Aquiles Serdan',
-        'Camarones',
-        'Refineria',
-        'Tacuba',
-        'San Joaquin',
-        'Polanco',
-        'Auditorio',
-        'Constituyentes',
-        'Tacubaya',
-        'San Pedro de los Pinos',
-        'San Antonio',
-        'Mixcoac',
-        'Barranca del Muerto'
+        ('El Rosario', Point()),
+        ('Aquiles Serdan', Point()),
+        ('Camarones', Point()),
+        ('Refineria', Point()),
+        ('Tacuba', Point()),
+        ('San Joaquin', Point()),
+        ('Polanco', Point()),
+        ('Auditorio', Point()),
+        ('Constituyentes', Point()),
+        ('Tacubaya', Point(19.403140, -99.187113)),
+        ('San Pedro de los Pinos', Point()),
+        ('San Antonio', Point()),
+        ('Mixcoac', Point()),
+        ('Barranca del Muerto', Point()),
     ])
 
     route1 = RouteSequence('1', [
-        'Observatorio',
-        'Tacubaya',
-        'Juanacatlan',
-        'Chapultepec',
-        'Sevilla',
-        'Insurgentes',
-        'Cuauhtemoc',
-        'Balderas',
-        'Salto del Agua',
-        'Isabel la Catolica',
-        'Pino Suarez',
-        'Merced',
-        'Candelaria',
-        'San Lazaro',
-        'Moctezuma',
-        'Balbuena',
-        'Boulevard Puerto Aereo',
-        'Gomez Farías',
-        'Zaragoza',
-        'Pantitlan'
+        ('Observatorio', Point()),
+        ('Tacubaya', Point()),
+        ('Juanacatlan', Point()),
+        ('Chapultepec', Point()),
+        ('Sevilla', Point()),
+        ('Insurgentes', Point(19.423678, -99.163103)),
+        ('Cuauhtemoc', Point()),
+        ('Balderas', Point(19.427707, -99.149083)),
+        ('Salto del Agua', Point()),
+        ('Isabel la Catolica', Point()),
+        ('Pino Suarez', Point()),
+        ('Merced', Point()),
+        ('Candelaria', Point()),
+        ('San Lazaro', Point()),
+        ('Moctezuma', Point()),
+        ('Balbuena', Point()),
+        ('Boulevard Puerto Aereo', Point()),
+        ('Gomez Farías', Point()),
+        ('Zaragoza', Point()),
+        ('Pantitlan', Point()),
     ])
 
     network = Network()
@@ -226,6 +229,7 @@ def build_weighted_path(network, nodes_names):
     return path
 
 def test1():
+    network = load_network()
     path0 = build_weighted_path(
         network,
         ['Cuatro Caminos', 'Panteones', 'Tacuba', 'Cuitlahuac'])
@@ -240,6 +244,7 @@ def test1():
     print
 
 def test_route(begin, end):
+    network = load_network()
     router = Router(network)
     path = router.enroute(network.node(begin), network.node(end))
     if path is None:
@@ -257,6 +262,7 @@ def functional_test():
     test_route('Cuatro Caminos', 'Insurgentes')
 
 def geojson_test(begin='Cuatro Caminos', end='Juanacatlan'):
+    network = load_network()
     router = Router(network)
     path = router.enroute(network.node(begin), network.node(end))
     print Path.as_geojson(path)

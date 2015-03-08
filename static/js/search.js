@@ -1,5 +1,5 @@
 $(window).load(function() {
-    var map = L.map('map').setView([19.43270,-99.13412], 13);
+    var map = L.map('map').setView([19.35715, -99.08226], 12);
 
     L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
         maxZoom: 18,
@@ -9,9 +9,9 @@ $(window).load(function() {
         id: 'examples.map-i875mjb7'
     }).addTo(map);
 
-    L.marker([19.43270,-99.13412])
-        .addTo(map)
-        .bindPopup("<b>Inicio </b><br />Mi primera ruta.").openPopup();
+    // L.marker([19.43270,-99.13412])
+    //     .addTo(map)
+    //     .bindPopup("<b>Inicio </b><br />Mi primera ruta.").openPopup();
 
     // function onMapClick(e) {
     //     var popup = L.popup();
@@ -25,32 +25,61 @@ $(window).load(function() {
 
     function onEachFeature(feature, layer) {
         var popupContent = "";
-        if (feature.properties && feature.properties.name) {
-            popupContent += "Estacion: " + feature.properties.name;
+        if (feature.properties && feature.properties['node-name']) {
+            popupContent += "Estacion: " + feature.properties['node-name'];
         }
         layer.bindPopup(popupContent);
     }
 
-    L.geoJson(rutas, {
-        style: function (feature) {
-            return feature.properties && feature.properties.style;
-        },
+	 $("#search-form").submit(function(event) {
+		  event.preventDefault();
+	 });
 
-        onEachFeature: onEachFeature,
+	 L.geoJson(rutas, {
+		  style: function (feature) {
+				return feature.properties && feature.properties.style;
+		  },
 
-        pointToLayer: function (feature, latlng) {
-            return L.circleMarker(latlng, {
-                radius: 7,
-                fillColor: "#ff7800",
-                color: "#000",
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.8
-            });
-        }
-    }).addTo(map);
+		  onEachFeature: onEachFeature,
 
+		  pointToLayer: function (feature, latlng) {
+				return L.circleMarker(latlng, {
+					 radius: 4,
+					 fillColor: "#ff7800",
+					 color: "#000",
+					 weight: 1,
+					 opacity: 1,
+					 fillOpacity: 0.8
+				});
+		  }
+	 }).addTo(map);
+	 
+	 
 	 $('#search-route').click(function() {
+		  $.getJSON('/search.json?origin=Tacuba&destination=Balderas', function(data) {
+				
+				var routes = data['content']['route_nodes'];
+
+				// $('body').append(routes);
+				L.geoJson(routes, {
+					 style: function (feature) {
+						  return feature.properties && feature.properties.style;
+					 },
+
+					 onEachFeature: onEachFeature,
+
+					 pointToLayer: function (feature, latlng) {
+						  return L.circleMarker(latlng, {
+								radius: 4,
+								fillColor: "#ff7800",
+								color: "#000",
+								weight: 1,
+								opacity: 1,
+								fillOpacity: 0.8
+						  });
+					 }
+				}).addTo(map);
+		  });
 	 });
 });
 

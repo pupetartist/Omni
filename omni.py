@@ -39,6 +39,10 @@ class Search(BaseHandler):
         self.render('search')
 
 
+class Map(BaseHandler):
+    def get(self):
+        self.render('map')
+
 def select_persistence_engine():
     if util.on_gae_platform():
         import db.gae
@@ -60,8 +64,9 @@ encoders.JsonEncoder().encoder = select_encoder()
 routing = [
     (r'/?', Main),
     (r'/route', Route),
-    (r'/search.json', SearchJson)
-    (r'/search', Search)
+    (r'/search.json', SearchJson),
+    (r'/search', Search),
+    (r'/map', Map)
 ]
 
 config = {}
