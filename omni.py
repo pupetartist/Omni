@@ -4,7 +4,9 @@ import models
 import encoders
 import util
 import os
+import test_routing
 
+from routing import Router, Path
 from base import BaseHandler
 
 
@@ -20,13 +22,23 @@ class Route(BaseHandler):
         self.render('route.html', origin=origin, destination=destination)
 
 
+class Search(BaseHandler):
+    def get(self):
+        origin = self.request.get('origin')
+        destination = self.request.get('destination')
+        if origin is None or destination is None:
+            self.send_json({'status': 'fail'})
+        else:
+            router = Router(test_routing.load_network())
+            path = Path.as_geojson(router.enroute(origin, destination))
+            self.send_json(path)
+
 def select_persistence_engine():
     if util.on_gae_platform():
         import db.gae
         return db.gae
     import db.null
     return db.null
-
 
 def select_encoder():
     if util.on_gae_platform():
@@ -41,7 +53,8 @@ encoders.JsonEncoder().encoder = select_encoder()
 
 routing = [
     (r'/?', Main),
-    (r'/route', Route)
+    (r'/route', Route),
+    (r'/search.json', Search)
 ]
 
 config = {}
@@ -50,7 +63,7 @@ if not util.on_gae_platform():
     import webapp2_static
     routing.insert(0, (r'/static/(.+)', webapp2_static.StaticFileHandler))
     config.update({'webapp2_static.static_file_path': 'static/'})
-    
+
 application = webapp2.WSGIApplication(routing, config=config, debug=True)
 
 # This is just to support running out of GAE
