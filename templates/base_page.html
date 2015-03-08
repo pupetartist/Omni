@@ -86,25 +86,18 @@
 
 
 
-
-
-
-
-
 <div id="map-canvas" class="map hidden"></div>
 
+
 <div id="page_content">
-	{% block page_content %}
 
-	{% endblock %}
-</div>
-
+{% block page_content %}
 {% endblock %}
-
+</div>
+{% endblock %}
 {% block scripts %}
-
 <script src="http://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false&libraries=places"></script>
-
 <script src="/static/js/base_page.js"></script>
 <script src="/static/js/jquery.ui.map.full.min.js"></script>
+
 {% endblock %}
