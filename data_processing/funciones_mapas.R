@@ -146,11 +146,15 @@ procesa_cetram <- function(csv_file) {
         df_ruta = transform_df(kml_obj)
         df_ruta_list = split(df_ruta, 1:nrow(df_ruta))
         html_map = create_html_map(df_ruta, 'latlng', 'pointName', sprintf('plots/%s_%s.html', cetram_table[i, 'DERROTERO.1'], f_kmz))
-        
+
         route_json = process_route(cetram_list[[i]])
         node_json_list = lapply(df_ruta_list, process_node, cetram_info=cetram_list[[i]], route_info=route_json)
         route_json$components = unname(sapply(node_json_list, FUN=function(x) x$`_id`))
-        num_nodes = length(node_json_list) 
+        num_nodes = length(node_json_list)
+
+        df_ruta$routeName = replicate(nrow(df_ruta), route_json$name)
+        df_ruta$provider = replicate(nrow(df_ruta), route_json$transport_provider)
+
         if(num_nodes>1) {
           for(idx in seq(node_json_list)) {
             if(idx==1) {
@@ -173,6 +177,8 @@ procesa_cetram <- function(csv_file) {
             node_json_list[[idx]]$connections = list(node_json_list[[idx]]$connections)
           }
         }
+        
+        write.csv(df_ruta, file=sprintf('out/route_%s.csv', route_json$name), row.names=F)
         write2file(toJSON(unname(node_json_list)), sprintf('out/nodes_%s.json', route_json$name))
         write2file(toJSON(route_json), sprintf('out/route_%s.json', route_json$name))
         cat('OK\n')

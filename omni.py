@@ -22,7 +22,7 @@ class Route(BaseHandler):
         self.render('route.html', origin=origin, destination=destination)
 
 
-class Search(BaseHandler):
+class SearchJson(BaseHandler):
     def get(self):
         origin = self.request.get('origin')
         destination = self.request.get('destination')
@@ -32,6 +32,16 @@ class Search(BaseHandler):
             router = Router(test_routing.load_network())
             path = Path.as_geojson(router.enroute(origin, destination))
             self.send_json(path)
+
+
+class Search(BaseHandler):
+    def get(self):
+        self.render('search')
+
+
+class Map(BaseHandler):
+    def get(self):
+        self.render('map')
 
 def select_persistence_engine():
     if util.on_gae_platform():
@@ -54,7 +64,9 @@ encoders.JsonEncoder().encoder = select_encoder()
 routing = [
     (r'/?', Main),
     (r'/route', Route),
-    (r'/search.json', Search)
+    (r'/search.json', SearchJson),
+    (r'/search', Search),
+    (r'/map', Map)
 ]
 
 config = {}
