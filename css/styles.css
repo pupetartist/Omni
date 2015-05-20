@@ -9,7 +9,7 @@
 /* -------------------------------------------------- */
 body {
   font-family: "Lato";
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 300;
   color: #7c7c7c;
 }
@@ -101,7 +101,7 @@ a.carousel-control:hover {
 .header-features {
   color: #D2F0FF;
   display: block;
-  font-size: 20px
+  font-size: 15px
 }
 .header-features .header-feature {
   padding-bottom: 70px;
