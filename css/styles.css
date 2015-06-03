@@ -112,7 +112,7 @@ a.carousel-control:hover {
   background-image: url(../img/nexus.png);
   width: 254px;
   height: 408px;
-  margin: -200px 225px 0;
+  margin: 0px 225px 0;
   position: relative;
 }
 .slider {
@@ -138,8 +138,8 @@ a.carousel-control:hover {
   font-size: 20px;
   padding: 20px 50px;
   font-weight: 300;
-  background: #363636;
-  border: 1px solid #363636;
+  background: #28BA47;
+  border: 1px solid #28BA47;
   border-radius: 3px;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.19);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.19);
