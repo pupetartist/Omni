@@ -1,6 +1,6 @@
 from google.appengine.ext import ndb
 from . import AccountBase
-import noconflict
+import app.noconflict
 
 class Account(ndb.Model, AccountBase):
     # If you get an error along the lines of:
@@ -8,7 +8,7 @@ class Account(ndb.Model, AccountBase):
     # >> (non-strict) subclass of the metaclasses of all its bases
     # you'll need the following line.
     # For more details see the "noconflict" module
-    __metaclass__ = noconflict.classmaker()
+    __metaclass__ = app.noconflict.classmaker()
 
     username = ndb.StringProperty(required=True)
     hashed_password = ndb.StringProperty(required=True)

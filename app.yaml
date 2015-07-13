@@ -6,19 +6,19 @@ threadsafe: true
 
 handlers:
 - url: /static/fonts
-  static_dir: static/fonts
+  static_dir: app/static/fonts
 
 - url: /static/css
-  static_dir: static/css
+  static_dir: app/static/css
 
 - url: /static/img
-  static_dir: static/img
+  static_dir: app/static/img
 
 - url: /static/js
-  static_dir: static/js
+  static_dir: app/static/js
 
 - url: /.*
-  script: omni.application
+  script: app.omni.application
 
 libraries:
 - name: webapp2

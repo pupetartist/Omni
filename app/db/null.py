@@ -1,4 +1,4 @@
-from util import singleton
+from app.util import singleton
 from . import AccountBase
 
 @singleton

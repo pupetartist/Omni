@@ -1,15 +1,18 @@
 import cgi
 import logging
+import re
 
 from authenticated import AuthenticatedHandler
 from models import Account
+
 
 class Login(AuthenticatedHandler):
     def initialize(self, *params, **named_params):
         AuthenticatedHandler.initialize(self, *params, **named_params)
 
     def render_form(self, redirect_url, login_error=''):
-        self.render('login', redirect_url = redirect_url, login_error = login_error)
+        self.render('login', redirect_url=redirect_url,
+                    login_error=login_error)
 
     def get(self):
         if self.is_logged_in():
@@ -29,10 +32,11 @@ class Login(AuthenticatedHandler):
         login_error = self.login(username, password)
 
         if login_error:
-            self.render_form(redirect_url, login_error = login_error)
+            self.render_form(redirect_url, login_error=login_error)
         else:
             logging.info('Redirecting to %s' % redirect_url)
             self.redirect(redirect_url)
+
 
 class Logout(AuthenticatedHandler):
     def auth_get(self):
@@ -43,7 +47,7 @@ class Logout(AuthenticatedHandler):
         self.abandon_session()
         self.redirect(redirect_url)
 
-import re
+
 class Signup(AuthenticatedHandler):
     def initialize(self, *params, **named_params):
         AuthenticatedHandler.initialize(self, *params, **named_params)
@@ -70,14 +74,17 @@ class Signup(AuthenticatedHandler):
         user_email = self.request.get('email')
 
         username_error = self.validate_username(user_username)
-        password_error, verify_error = self.validate_password(user_password, user_verify)
+        password_error, verify_error = self.validate_password(
+            user_password, user_verify)
         email_error = self.validate_email(user_email)
-        
+
         if username_error or password_error or verify_error or email_error:
-            self.render_form(redirect_url, user_username, user_email, 
-                            username_error, password_error, verify_error, email_error)
+            self.render_form(redirect_url, user_username, user_email,
+                             username_error, password_error, verify_error,
+                             email_error)
         else:
-            account = Account.register_account(user_username, user_password, user_email)
+            account = Account.register_account(
+                user_username, user_password, user_email)
             self.establish_session(account)
             self.redirect(redirect_url)
 
@@ -90,22 +97,22 @@ class Signup(AuthenticatedHandler):
     def validate_password(self, user_password, user_verify):
         if not self.PASSWORD_RE.match(user_password):
             return "That wasn't a valid password.", None
-        if user_password <> user_verify:
+        if user_password != user_verify:
             return None, "Your passwords didn't match."
         return None, None
 
     def validate_email(self, user_email):
         if user_email and not self.EMAIL_RE.match(user_email):
             return "That's not a valid email."
-            
-    def render_form(self, redirect_url='', username='', email='',
-                   username_error=None, password_error=None, verify_error=None, email_error=None):
-        self.render('signup', 
-                    redirect_url = redirect_url,
-                    username = cgi.escape(username),
-                    email = cgi.escape(email),
-                    username_error = username_error or '',
-                    password_error = password_error or '',
-                    verify_error = verify_error or '',
-                    email_error = email_error or '')
 
+    def render_form(self, redirect_url='', username='', email='',
+                    username_error=None, password_error=None,
+                    verify_error=None, email_error=None):
+        self.render('signup',
+                    redirect_url=redirect_url,
+                    username=cgi.escape(username),
+                    email=cgi.escape(email),
+                    username_error=username_error or '',
+                    password_error=password_error or '',
+                    verify_error=verify_error or '',
+                    email_error=email_error or '')

@@ -1,8 +1,8 @@
-import security
+import app.security
 import abc
 
 # abstractclassmethod is only available from abc only in Python 3
-from util import abstractclassmethod
+from app.util import abstractclassmethod
 
 # This class is meant to be an abstract class (no fields should be added here)
 class AccountBase:
