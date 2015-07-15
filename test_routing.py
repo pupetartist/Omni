@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from geopy.distance import vincenty
+#from geopy.distance import vincenty
 from routing import Path, Router
 from geopy.point import Point
 

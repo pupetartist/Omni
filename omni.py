@@ -1,5 +1,4 @@
 import webapp2
-
 import models
 import encoders
 import util
@@ -27,7 +26,8 @@ class SearchJson(BaseHandler):
         origin = self.request.get('origin')
         destination = self.request.get('destination')
         if origin is None or destination is None:
-            self.send_json({'status': 'fail'})
+
+        self.send_json({'status': 'fail'})
         else:
             router = Router(test_routing.load_network())
             path = Path.as_geojson(router.enroute(origin, destination))
@@ -80,6 +80,8 @@ application = webapp2.WSGIApplication(routing, config=config, debug=True)
 
 # This is just to support running out of GAE
 # Inside GAE, static routes are specified in the yaml file
+
+
 def main():
     from paste import httpserver
     port = os.getenv('VCAP_APP_PORT', 11080)

@@ -1,6 +1,8 @@
 from util import singleton
 from . import AccountBase
 
+
+
 @singleton
 class Account(AccountBase):
     def __init__(self):
