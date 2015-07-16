@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block head %}
-{{ super() }}
+
+{{ block.super }}
+
 <link rel="stylesheet" href="/static/css/base_page.css">
 {% endblock %}
 
@@ -10,7 +12,7 @@
 <div class="row" id="mainbar">
 	<div class="col-md-2">
 		<a href="/">
-			<img src="/static/img/omnimobi.jpg" alt="Omnimobie" class="logo"> 
+			<img src="/static/img/omnimobi.jpg" alt="Omnimobie" class="logo">
 		</a>
 	</div>
 
@@ -32,7 +34,7 @@
 						<input type="text" class="form-control" name="origin" id="origin"
 							value="{{origin}}"
 							placeholder="E.g. Plaza Antara Polanco" required />
-						
+
 						<span class="input-group-btn">
 							<button type="button" class="btn btn-default" id="locate-origin-btn">
 								<span class="glyphicon glyphicon-map-marker" title="Localízame en el mapa" id="origin-icon"></span>

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block head %}
-    { super() }
+
 <link rel="stylesheet" href="/static/css/base_page.css">
 {% endblock %}
 
@@ -9,7 +9,7 @@
 {% block content %}
 <div class="row" id="mainbar">
 	<div class="col-md-2">
-		<a href="/">
+		<a href="/web">
 			<img src="/static/img/omnimobi.jpg" alt="Omnimobie" class="logo">
 		</a>
 	</div>
@@ -84,7 +84,9 @@
 {% endblock %}
 </div>
 {% endblock %}
+
 {% block scripts %}
+
 <script src="http://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false&libraries=places"></script>
 <script src="/static/js/base_page.js"></script>
 <script src="/static/js/jquery.ui.map.full.min.js"></script>
