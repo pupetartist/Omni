@@ -14,10 +14,12 @@ class StaticFileHandler(webapp2.RequestHandler):
             self.response.set_status(403)
             return
         try:
-            f = open(abs_path, 'r')
-            self.response.headers['Content-Type'] = mimetypes.guess_type(abs_path)[0]
-            
-            self.response.out.write(f.read())
-            f.close()
+            with open(abs_path, 'rb') as f:
+                self.response.headers['Content-Type'] = mimetypes.guess_type(abs_path)[0]
+                # webapp2 seems to try to guess the size of the content, but it fails to do it
+                # correctly (at least in Windows) on its own, so we'll give it a little help
+                file_bytes = f.read()
+                self.response.headers['Content-Length'] = len(file_bytes)
+                self.response.out.write(file_bytes)
         except:
             self.response.set_status(404)
