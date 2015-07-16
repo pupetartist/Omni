@@ -18,6 +18,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates')
 
+TEMPLATE_PATH_JINJA2 = os.path.join(BASE_DIR, 'templates/jinja2')
+
 STATIC_PATH = os.path.join(BASE_DIR,'static')
 
 STATICFILES_DIRS = (STATIC_PATH,)
@@ -64,6 +66,15 @@ ROOT_URLCONF = 'omni_django.urls'
 
 TEMPLATES = [
     {
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',
+        'DIRS': [TEMPLATE_PATH_JINJA2],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'environment': 'myproject.jinja2.environment',
+        },
+    },
+
+    {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [TEMPLATE_PATH],
         'APP_DIRS': True,
@@ -76,6 +87,8 @@ TEMPLATES = [
             ],
         },
     },
+
+
 ]
 
 
