@@ -1,6 +1,12 @@
 .jumbotron {
+
 	 background: linear-gradient(rgba(0, 0, 0, 0.5),
-										  rgba(0, 0, 0, 0.5)), url('../img/subway.jpg');
-    color: white;
-    height: 500px;
+	        		     rgba(0, 0, 0, 0.5)),
+         url('../img/fondo-pagina.jpg');
+         color: white;
+
+         height: 1000px;
+         /* background-size: cover;  */
+
+
 }
