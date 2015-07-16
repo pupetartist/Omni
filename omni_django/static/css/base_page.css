@@ -3,17 +3,14 @@
 }
 
 .logo {
-	 width: 300px;
+  width: 200px;
+  height: 200px;
 }
 
 #search {
 	 margin-top: 20px;
 }
 
-#mainbar {
-	 background: rgb(0, 114, 161);
-	 color: white;
-}
 
 .map {
 	 width: 100%;
