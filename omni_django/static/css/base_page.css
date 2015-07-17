@@ -2,6 +2,11 @@
 	 visibility: hidden;
 }
 
+html {
+background: url('../img/fondo-pagina.jpg') no-repeat center center fixed;
+background-size: 100% 100%;
+}
+
 .logo {
   width: 200px;
   height: 200px;
