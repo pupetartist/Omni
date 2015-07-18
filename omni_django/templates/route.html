@@ -7,6 +7,27 @@
 {% endblock %}
 
 {% block page_content %}
+<div class="row" id="bar_icgenericos">
+    <div class="col-md-6" class="ic_genericos">
+      <ul id="genericos">
+          <li id="ic_metro" class="active">
+            <img src="../static/img/genericos/metro_on.png" style="height:50px" alt="...">
+          </li>
+          <li id="ic_autobus">
+            <img src="../static/img/genericos/autobus_off.png" style="height:50px" alt="...">
+          </li>
+          <li id="ic_caminar" class="active">
+            <img src="../static/img/genericos/caminar_on.png" style="height:50px"  alt="...">
+          </li>
+          <li id="ic_taxi" class="active">
+            <img src="../static/img/genericos/taxi_on.png" style="height:50px" alt="...">
+          </li>
+          <li id="ic_bici">
+            <img src="../static/img/genericos/bici_off.png" style="height:50px" alt="...">
+          </li>
+      </ul>            
+    </div>
+</div>
 <div class="routes-panel">
   <div id="routes-search-progress">
     <h3>
@@ -18,10 +39,6 @@
   </div>
 
   <div class="row">
-    <h3 id="routes-header" class="hidden">
-      Se encontraron las siguientes rutas:
-    </h3>
-
     <div class="col-md-6">
       <ul id="routes-list" class="list-group hidden">
         <li class="list-group-item row">
@@ -225,4 +242,5 @@
 {% block scripts %}
   {{ block.super }}
   <script src="/static/js/route.js"></script>
+  <script src="/static/js/genericos.js"></script>
 {% endblock %}
