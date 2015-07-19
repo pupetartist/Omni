@@ -84,15 +84,15 @@ figcaption {
 }
 
 #bar_icgenericos{
-	background-color: rgb(0, 114, 161);
-	margin: 1px 0 5px 0;
+  background-color: #135184;
+  margin: 1px 0 5px 0;
 }
 
 #genericos li{
 	display: inline-block;
 	color:blue;
 	font-size: 3em;
-	padding:0 25px; 
+	padding:0 25px;
 }
 
 #genericos li.active{

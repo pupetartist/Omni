@@ -1,7 +1,9 @@
 .jumbotron {
 
-	 background: linear-gradient(rgba(0, 0, 0, 0.5),
-										  rgba(0, 0, 0, 0.5)), url('../img/.jpg');
+
+
+         background: linear-gradient(rgba(0, 0, 0, 0.5),
+        			     rgba(0, 0, 0, 0.5)), url('../img/fondo-pagina.jpg');
     color: white;
     height: 800px;
     width: 100%;

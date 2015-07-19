@@ -7,6 +7,16 @@
 /* background-size: 100% 100%; */
 /* } */
 
+html,body{
+
+margin:0px;
+
+height:100%;
+
+}
+
+
+
 .logo {
   width: 200px;
   height: 200px;
@@ -18,10 +28,9 @@
 
 
 #mainbar {
-  background: #135184;
+  background-color: #135184;
 	 color: white;
 }
-
 
 
 .map {
