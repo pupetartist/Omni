@@ -2,18 +2,27 @@
 	 visibility: hidden;
 }
 
+/* html { */
+/* background: url('../img/fondo-pagina.jpg') no-repeat center center fixed; */
+/* background-size: 100% 100%; */
+/* } */
+
 .logo {
-	 width: 300px;
+  width: 200px;
+  height: 200px;
 }
 
 #search {
 	 margin-top: 20px;
 }
 
+
 #mainbar {
   background: #135184;
 	 color: white;
 }
+
+
 
 .map {
 	 width: 100%;

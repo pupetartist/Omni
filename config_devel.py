@@ -1,2 +1,0 @@
-#
-PASSWORD_SECRET="fhsf"
