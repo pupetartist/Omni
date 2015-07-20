@@ -5,8 +5,9 @@
          background: linear-gradient(rgba(0, 0, 0, 0.5),
         			     rgba(0, 0, 0, 0.5)), url('../img/fondo-pagina.jpg');
     color: white;
-    height: 800px;
+    height: 83vh;
     width: 100%;
+    margin-bottom: 0px;
 
 
        /* height: 30%; */
@@ -16,4 +17,8 @@
 
 
 
+}
+
+body{
+  overflow: hidden;
 }

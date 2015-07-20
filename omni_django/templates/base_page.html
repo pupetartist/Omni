@@ -2,93 +2,94 @@
 
 {% block head %}
 
-<link rel="stylesheet" href="/static/css/base_page.css">
+    <link rel="stylesheet" href="/static/css/base_page.css">
 {% endblock %}
 
 
 {% block content %}
-<div class="row" id="mainbar">
-	<div class="col-md-2">
-		<a href="/web">
-			<img class="img-responsive" src="/static/img/logo.png" alt="Omnimobie" >
-		</a>
-	</div>
+    <div class="row" id="mainbar">
+        <div class="col-md-2">
+            <a href="/web">
+                <img class="img-responsive" src="/static/img/logo.png" alt="Omnimobie" >
+            </a>
+        </div>
+        <form class="col-md-9" id="search" method="GET" action="/web/route">
+            <div class="form-horizontal">
+                <div class="form-group has-feedback">
+                    <label class="control-label col-md-3" for="destination">
+                        <strong>¿Dónde estás?</strong>
+                    </label>
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" id="find-me">
+                                    <span id="find-me-icon">¡Encuéntrame!</span>
+                                    <span class="glyphicon glyphicon-refresh hidden" id="find-me-spinner"></span>
+                                </button>
+                            </span>
 
-	<form class="col-md-9" id="search" method="GET" action="/web/route">
-		<div class="form-horizontal">
-			<div class="form-group has-feedback">
-				<label class="control-label col-md-3" for="destination">
-					<strong>¿Dónde estás?</strong>
-				</label>
-				<div class="col-md-8">
-					<div class="input-group">
-						<span class="input-group-btn">
-							<button type="button" class="btn btn-default" id="find-me">
-								<span id="find-me-icon">¡Encuéntrame!</span>
-								<span class="glyphicon glyphicon-refresh hidden" id="find-me-spinner"></span>
-							</button>
-						</span>
+                            <input type="text" class="form-control" name="origin" id="origin"
+                                   value="{{origin}}"
+                                   placeholder="E.g. Plaza Antara Polanco" required />
 
-						<input type="text" class="form-control" name="origin" id="origin"
-							value="{{origin}}"
-							placeholder="E.g. Plaza Antara Polanco" required />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" id="locate-origin-btn">
+                                    <span class="glyphicon glyphicon-map-marker" title="Localízame en el mapa" id="origin-icon"></span>
+                                    <span class="glyphicon glyphicon-refresh hidden" id="origin-spinner"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-						<span class="input-group-btn">
-							<button type="button" class="btn btn-default" id="locate-origin-btn">
-								<span class="glyphicon glyphicon-map-marker" title="Localízame en el mapa" id="origin-icon"></span>
-								<span class="glyphicon glyphicon-refresh hidden" id="origin-spinner"></span>
-							</button>
-						</span>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="form-horizontal">
-			<div class="form-group has-feedback">
-				<label class="control-label col-md-3" for="destination">
-					<strong>¿A dónde vas?</strong>
-				</label>
-				<div class="col-md-8">
-					<div class="input-group">
-						<input type="text" class="form-control" name="destination"
-							id="destination" placeholder="Venustiano Carranza 7, San Bartolo, Naucalpan" required
-							value="{{destination}}" />
-						<span class="input-group-btn">
-							<button type="button" class="btn btn-default" id="locate-destination-btn">
-								<span class="glyphicon glyphicon-map-marker" title="Localízame en el mapa" id="destination-icon"></span>
-								<span class="glyphicon glyphicon-refresh hidden" id="destination-spinner"
-									title="Localízame en el mapa"></span>
-							</button>
-							<button type="submit" class="btn btn-primary inline" id="search-btn">¡Buscar Rutas!</button>
-						</span>
-					</div>
-				</div>
-			</div>
-		</div>
-</div>
-
-
+            <div class="form-horizontal">
+                <div class="form-group has-feedback">
+                    <label class="control-label col-md-3" for="destination">
+                        <strong>¿A dónde vas?</strong>
+                    </label>
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="destination"
+                                   id="destination" placeholder="Venustiano Carranza 7, San Bartolo, Naucalpan" required
+                                   value="{{destination}}" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" id="locate-destination-btn">
+                                    <span class="glyphicon glyphicon-map-marker" title="Localízame en el mapa" id="destination-icon"></span>
+                                    <span class="glyphicon glyphicon-refresh hidden" id="destination-spinner"
+                                          title="Localízame en el mapa"></span>
+                                </button>
+                                <button type="submit" class="btn btn-primary inline" id="search-btn">¡Buscar Rutas!</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 
 
 
 
 
 
-<div id="map-canvas" class="map hidden"></div>
 
 
-<div id="page_content">
+    <div id="map-canvas" class="map hidden"></div>
 
-{% block page_content %}
-{% endblock %}
-</div>
+
+    <div id="page_content">
+        <div class="row">
+        {% block page_content %}
+        {% endblock %}
+        </div>
+    </div>
 {% endblock %}
 
 {% block scripts %}
 
-<script src="http://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false&libraries=places"></script>
-<script src="/static/js/base_page.js"></script>
-<script src="/static/js/jquery.ui.map.full.min.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false&libraries=places"></script>
+    <script src="/static/js/base_page.js"></script>
+    <script src="/static/js/jquery.ui.map.full.min.js"></script>
 
 {% endblock %}
